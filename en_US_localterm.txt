@@ -1,0 +1,7 @@
+term, translatable, anchor
+"Active Person", '_("Active Person")', active_person
+"Addon", '_("Addon")', addon
+"Add-on", '_("Add-on")', addon
+"Address", '_("Address")', address
+"administrative division", '_("administrative division")', administrative_division
+"Aide", '_("Aide")', aide

@@ -1,0 +1,114 @@
+term, translatable, anchor
+"Active Person", '_("Active Person")', active_person
+"Addon", '_("Addon")', addon
+"Add-on", '_("Add-on")', addon
+"Address", '_("Address")', address
+"administrative division", '_("administrative division")', administrative_division
+"Aide", '_("Aide")', aide
+"anglicization", '_("anglicization")', anglicisation
+"Association", '_("Association")', association
+"Associations", '_("Associations")', association
+"Attribute", '_("Attribute")', attribute
+"Attributes", '_("Attributes")', attribute
+"Books Report", '_("Books Report")', books_report
+"Bride", '_("Bride")', bride
+"BSDDB", '_("BSDDB")', bsddb
+"Category", '_("Category")', category
+"Categories", '_("Categories")', category
+"Celebrant", '_("Celebrant")', celebrant
+"Citation", '_("Citation")', citation
+"Citations", '_("Citations")', citation
+"Clergy", '_("Clergy")', clergy
+"Clipboard", '_("Clipboard")', clipboard
+"Context menu", '_("Context menu")', context_menu
+"Custom Filter", '_("Custom Filter")', filter
+"custom Types", '_("custom Types")', custom
+"Date", '_("Date")', date
+"DNA", '_("DNA")', dna
+"Dock", '_("Dock")', dock
+"Undock", '_("Undock")', dock
+"DTD", '_("DTD")', dtd
+"Edit Family", '_("Edit Family")', edit_family
+"Edit Person", '_("Edit Person")', edit_person
+"Event", '_("Event")', event
+"Event Role", '_("Event Role")', event_role
+"event type", '_("event type")', event_type
+"Fallback events", '_("Fallback events")', fallback
+"Family", '_("Family")', family
+"File Chooser", '_("File Chooser")', file_chooser
+"File formats", '_("File formats")', file_format
+"Filter", '_("Filter")', filter
+"GEDCOM", '_("GEDCOM")', gedcom
+"Godparent", '_("Godparent")', godparent
+"Gramplet", '_("Gramplet")', gramplet
+"Gramps", '_("Gramps")', gramps
+"Gramps for Desktops", '_("Gramps for Desktops")', gramps
+"Gramps Web for Servers", '_("Gramps Web for Servers")', grampsweb
+"Graphical User Interface", '_("Graphical User Interface")', graphical_user_interface
+"Groom", '_("Groom")', groom
+"GUI", '_("GUI")', graphical_user_interface
+"Home Person", '_("Home Person")', home_person
+"Informant", '_("Informant")', informant
+"JSON", '_("JSON")', json
+"keybinding", '_("keybinding")', keybinding
+"matronym", '_("matronym")', matronymic
+"Media", '_("Media")', media
+"Merge", '_("Merge")', merge
+"Mode", '_("Mode")', viewmode
+"Name Origin", '_("Name Origin")', name_origin
+"Navigator", '_("Navigator")', navigator
+"Note", '_("Note")', note
+"Object ", '_("Object ")', object
+"Object Editor", '_("Object Editor")', object_editor
+"Object Reference Editors", '_("Object Reference Editors")', object_reference_editors
+"Officiator", '_("Officiator")', officiator
+"patronym", '_("patronym")', patronymic
+"Person", '_("Person")', person
+"Place", '_("Place")', place
+"Plugin", '_("Plugin")', plugin
+"Plug-in", '_("Plug-in")', plugin
+"POSIX", '_("POSIX")', posix
+"Preferences", '_("Preferences")', preferences
+"Prerequisites", '_("Prerequisites")', prerequisites
+"Primary Object", '_("Primary Object")', primary_object
+"Primary role", '_("Primary role")', primary
+"Private flag", '_("Private flag")', private
+"Private tag ", '_("Private tag ")', private_tag
+"Public flag", '_("Public flag")', public
+"Public tag ", '_("Public tag ")', public_tag
+"Quick View", '_("Quick View")', quickview
+"Reference", '_("Reference")', reference
+"References tab", '_("References tab")', references_tab
+"Regular Expressions", '_("Regular Expressions")', regex
+"Re-order", '_("Re-order")', reorder
+"Repositories", '_("Repositories")', repository
+"Repository", '_("Repository")', repository
+"Role", '_("Role")', role
+"Roles", '_("Roles")', role
+"romanization", '_("romanization")', romanization
+"Rule", '_("Rule")', rule
+"Rules", '_("Rules")', rule
+"secondary object", '_("secondary object")', secondary_object
+"Selector combo box", '_("Selector combo box")', selector_combo_box
+"Shared objects", '_("Shared objects")', sharing
+"Reference information", '_("Reference information")', reference information
+"Shared information", '_("Shared information")', shared_information
+"selector", '_("selector")', selector
+"Source", '_("Source")', source
+"Sources", '_("Sources")', source
+"SQLite", '_("SQLite")', sqlite
+"Swatch", '_("Swatch")', swatch
+"Color Swatch", '_("Color Swatch")', color_swatch
+"Tag", '_("Tag")', tag
+"Tags", '_("Tags")', tag
+"Toolbar", '_("Toolbar")', toolbar
+"Typographical conventions", '_("Typographical conventions")', Typographical_conventions
+"Unkown", '_("Unkown")', unknown
+"User Directory", '_("User Directory")', user_directory
+"View", '_("View")', view
+"View category", '_("View category")', view_category
+"View mode", '_("View mode")', viewmode
+"Wiki", '_("Wiki")', wiki
+"Witness", '_("Witness")', witness
+"XML", '_("XML")', xml
+
