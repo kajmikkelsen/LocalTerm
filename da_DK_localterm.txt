@@ -1,0 +1,9 @@
+term, translatable, anchor
+"Fokusperson", '_("Active Person")', active_person
+"Tillæg", '_("Addon")', addon
+"Tillæg", '_("Add-on")', addon
+"Adresse", '_("Address")', address
+"administrativ inddeling", '_("administrative division")', administrative_division
+"Hjælper", '_("Aide")', aide
+"Sted", '_("Place")', place
+

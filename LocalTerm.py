@@ -17,7 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-
+# 20251008
+# added strip to the dequote function
+# added dictionaries
+# filling gui from dictionary instead of from file
+# 20251009
+# added functionality for two languages
+# cleaned up the setup
 # ----------------------------------------------------------------------------
 """
     Local term - a plugin for showing translatable terms
@@ -83,16 +89,11 @@ show_error = True
 _config_file = os.path.join(os.path.dirname(__file__), "LocalTerm")
 
 config = configman.register_manager(_config_file)
-config.register("myopt.filter_text", "Filter out")
-config.register("myopt.use_filter", False)
-config.register("myopt.show_outside_span", True)
-config.register("myopt.files", "default_data_v1_0.txt")
+config.register("myopt.url_bas", "https://gramps-project.org/wiki/index.php/Gramps_Glossary")
+config.register("myopt.files", "en_US_localterm.txt")
 config.register("myopt.fg_sel_col", "#000000")
 config.register("myopt.bg_sel_col", "#ffffff")
-config.register("myopt.fg_usel_col", "#000000")
-config.register("myopt.bg_usel_col", "#ededed")
-config.register("myopt.fl_ar", ["default_data_v1_0.txt"])
-config.register("myopt.use_full_date", False)
+config.register("myopt.fl_ar", ["en_US_localterm.txt"])
 
 
 class LocalTerm(Gramplet):
@@ -111,6 +112,11 @@ class LocalTerm(Gramplet):
         self.gui.get_container_widget().add(self.gui.WIDGET)
         self.gui.WIDGET.show()
         self.model.clear()
+
+        self.lang1_txt = {}
+        self.lang2_txt = {}
+        self.lang1_loc = {}
+        self.lang2_loc = {}
         config.load()
 
     def build_options(self):
@@ -121,29 +127,14 @@ class LocalTerm(Gramplet):
         files = []
         self.opts = []
 
-        name = _("Rows starting with this in the text column will be hidden ")
-        opt = StringOption(name, self.__start_filter_st)
+        name = _("The URL base the anchor will be attached to")
+        opt = StringOption(name, self.__url_bas)
         self.opts.append(opt)
-        name = _("Use filter ")
-        opt = BooleanOption(name, self.__use_filter)
-        self.opts.append(opt)
-        name = _("Show outside life span ")
-        opt = BooleanOption(name, self.__show_it)
-        self.opts.append(opt)
-        name = _("Use full dates")
-        opt = BooleanOption(name, self.__use_full_date)
-        self.opts.append(opt)
-        name = _("Foreground color items in lifespan")
+        name = _("Foreground color")
         opt = ColorOption(name, self.__fg_sel)
         self.opts.append(opt)
-        name = _("Background color items in lifespan")
+        name = _("Background color")
         opt = ColorOption(name, self.__bg_sel)
-        self.opts.append(opt)
-        name = _("Foreground color items outside lifespan")
-        opt = ColorOption(name, self.__fg_not_sel)
-        self.opts.append(opt)
-        name = _("Background color items outside lifespan")
-        opt = ColorOption(name, self.__bg_not_sel)
         self.opts.append(opt)
         flnam = os.path.join(os.path.dirname(__file__), "*localterm.txt")
         files = [f for f in glob.glob(flnam)]
@@ -160,24 +151,13 @@ class LocalTerm(Gramplet):
         Save gramplet configuration data.
         """
         # pylint: disable=attribute-defined-outside-init
-        self.__start_filter_st = self.opts[0].get_value()
-        self.__use_filter = self.opts[1].get_value()
-        self.__show_it = self.opts[2].get_value()
-        self.__use_full_date = self.opts[3].get_value()
-        self.__use_year = not self.__use_full_date
-        self.__fg_sel = self.opts[4].get_value()
-        self.__bg_sel = self.opts[5].get_value()
-        self.__fg_not_sel = self.opts[6].get_value()
-        self.__bg_not_sel = self.opts[7].get_value()
-        self.__fl_ar = self.opts[8].get_selected()
-        config.set("myopt.filter_text", self.__start_filter_st)
-        config.set("myopt.use_filter", self.__use_filter)
-        config.set("myopt.show_outside_span", self.__show_it)
-        config.set("myopt.use_full_date", self.__use_full_date)
+        self.__url_bas = self.opts[0].get_value()
+        self.__fg_sel = self.opts[1].get_value()
+        self.__bg_sel = self.opts[2].get_value()
+        self.__fl_ar = self.opts[3].get_selected()
+        config.set("myopt.url_bas", self.__url_bas)
         config.set("myopt.fg_sel_col", self.__fg_sel)
         config.set("myopt.bg_sel_col", self.__bg_sel)
-        config.set("myopt.fg_usel_col", self.__fg_not_sel)
-        config.set("myopt.bg_usel_col", self.__bg_not_sel)
         config.set("myopt.fl_ar", self.__fl_ar)
         config.save()
 
@@ -194,15 +174,9 @@ class LocalTerm(Gramplet):
         """
         self.__show_error = True
         local_log.info("Antal = %d", len(self.gui.data))
-        self.__start_filter_st = config.get("myopt.filter_text")
-        self.__use_filter = config.get("myopt.use_filter")
-        self.__show_it = config.get("myopt.show_outside_span")
-        self.__use_full_date = config.get("myopt.use_full_date")
-        self.__use_year = not self.__use_full_date
+        self.__url_bas = config.get("myopt.url_bas")
         self.__fg_sel = config.get("myopt.fg_sel_col")
         self.__bg_sel = config.get("myopt.bg_sel_col")
-        self.__fg_not_sel = config.get("myopt.fg_usel_col")
-        self.__bg_not_sel = config.get("myopt.bg_usel_col")
         self.__fl_ar = config.get("myopt.fl_ar")
 
     #        if self.__fl_ar[0] == "None":
@@ -215,6 +189,7 @@ class LocalTerm(Gramplet):
         If a matching pair of quotes is not found,
         or there are less than 2 characters, return the string unchanged.
         """
+        s = s.strip()
         if (len(s) >= 2 and s[0] == s[-1]) and s.startswith(("'", '"')):
             return s[1:-1]
         return s
@@ -225,41 +200,69 @@ class LocalTerm(Gramplet):
         """
         local_log.info("FILENANME %s", flnm)
         self.sort_date = ""
-
+#        lang1_txt = {}
+#        lang1_loc = {}
+        if self.filenbr == 0:
+            self.lang1_txt.clear()
+            self.lang1_loc.clear()
+            self.lang2_txt.clear()
+            self.lang2_loc.clear()
         self.linenbr = 0
         with open(flnm, encoding="utf-8") as myfile:
             for line in myfile:
                 self.linenbr += 1
-                line = line.rstrip() + ","
-                words = line.split(",")
-                local_log.info("number words %d",len(words))
-                if len(words) != 4:
-                    if len(line) > 10:
-                        errormessage = (
-                            _(
-                                ': line does not contain three sections separated by , in : "'
+                if self.linenbr > 1: 
+                    line = line.rstrip() + ","
+                    words = line.split(",")
+                    if len(words) != 4:
+                        if len(line) > 10:
+                            errormessage = (
+                                _(
+                                    ': line does not contain three sections separated by , in : "'
+                                )
+                                + line
+                                + 'i" File: '
+                                + flnm
                             )
-                            + line
-                            + 'i" File: '
-                            + flnm
-                        )
-                        errormessage = str(self.linenbr) + errormessage
-                        ErrorDialog(_("Error:"), errormessage)
-                else:
-                        words[0] = self.dequote(words[0])
-                        mytupple = (
-                            words[0],
-                            words[1].replace("'",""),
-                            words[2],
-                            '',
-                            self.__fg_sel,
-                            self.__bg_sel,
-                        )
-                        self.model.append(mytupple)
+                            errormessage = str(self.linenbr) + errormessage
+                            ErrorDialog(_("Error:"), errormessage)
+                    else:
+                            words[0] = self.dequote(words[0])
+                            words[1] = self.dequote(words[1])
+#
+#                            mytupple = (
+#                                words[0],
+#                                words[1],
+#                                words[2],
+#                                '',
+#                                self.__fg_sel,
+#                                self.__bg_sel,
+#                            )
+                            if self.filenbr == 0:
+                                self.lang1_txt[words[1]] = words[0]
+                                self.lang1_loc[words[1]]= words[2]
+                                self.lang2_txt[words[1]] = ""
+                            else:
+                                self.lang2_txt[words[1]] = words[0]
+                                self.lang2_loc[words[1]] = words[2]
+
+#                            self.model.append(mytupple)
+        if (len(self.__fl_ar) == 1) or (self.filenbr == 1):
+            for key1, value1 in self.lang2_loc.items():
+                if not key1 in self.lang1_txt:
+                    local_log.info("Indsætter %s ",key1)
+                    self.lang1_loc[key1] = value1
+                    self.lang1_txt[key1] = ""
+
+            for key, value in self.lang1_txt.items():
+                mytupple = (key,value,self.lang1_loc.get(key,"not found"),self.lang2_txt.get(key,"not found"),self.__fg_sel, self.__bg_sel,)
+                self.model.append(mytupple)
 
     def main(self):
         self.model.clear()
         local_log.info("Main kaldet")
+        self.filenbr = 0;
+        local_log.info("file %s",len(self.__fl_ar))
         for flnm in self.__fl_ar:
             flnm = os.path.join(os.path.dirname(__file__), flnm)
             if not os.path.exists(flnm):
@@ -269,6 +272,9 @@ class LocalTerm(Gramplet):
             if os.path.exists(flnm):
                 if os.path.isfile(flnm):
                     self.load_file(flnm)
+                    local_log.info("filename = %s",flnm)
+                    local_log.info("filenbr = %s",self.filenbr)
+                    self.filenbr = self.filenbr + 1 
                 else:
                     self.set_text("No file " + flnm)
             else:
@@ -335,17 +341,17 @@ class LocalTerm(Gramplet):
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         top.append_column(column)
 
-        # column = Gtk.TreeViewColumn(
-        #    _("Dato"), renderer, text=3, foreground=5, background=6
-        # )
-        #        column.set_sort_column_id(3)
-        #        column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
-        #        top.append_column(column)
+        column = Gtk.TreeViewColumn(
+            _("tst"), renderer, text=3, foreground=4, background=5
+        )
+        column.set_sort_column_id(3)
+        column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
+        top.append_column(column)
 
         #        column = Gtk.TreeViewColumn(_('Link'), renderer, text=3,foreground=4,background=5)
         #        column.set_sort_column_id(3)
         #        column.set_fixed_width(150)
         #        top.append_column(column)
-        self.model.set_sort_column_id(3, Gtk.SortType.ASCENDING)
+        self.model.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         top.set_model(self.model)
         return top
