@@ -1,7 +1,7 @@
 register(
     GRAMPLET,
     id="LocalTerm Gramplet",
-    name=_("Dictionay"),
+    name=_("Dictionary"),
     description=_("Dictionary for gramps objects"),
     status=STABLE,
     version = '0.1.1',
