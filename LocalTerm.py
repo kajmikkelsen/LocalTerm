@@ -24,6 +24,9 @@
 # 20251009
 # added functionality for two languages
 # cleaned up the setup
+# 20251014 
+# Fixed issue with error when calling the URL
+# changed header names
 # ----------------------------------------------------------------------------
 """
     Local term - a plugin for showing translatable terms
@@ -83,7 +86,6 @@ except ValueError:
     _trans = glocale.translation
 _ = _trans.gettext
 lang = glocale.lang
-local_log.info("Sprog = %s", lang)
 show_error = True
 # local_log.info("Maximum age = %s",_MAX_AGE_PROB_ALIVE);
 _config_file = os.path.join(os.path.dirname(__file__), "LocalTerm")
@@ -154,12 +156,18 @@ class LocalTerm(Gramplet):
         self.__url_bas = self.opts[0].get_value()
         self.__fg_sel = self.opts[1].get_value()
         self.__bg_sel = self.opts[2].get_value()
+        self.__old_fl_ar = self.__fl_ar
         self.__fl_ar = self.opts[3].get_selected()
         config.set("myopt.url_bas", self.__url_bas)
         config.set("myopt.fg_sel_col", self.__fg_sel)
         config.set("myopt.bg_sel_col", self.__bg_sel)
         config.set("myopt.fl_ar", self.__fl_ar)
-        config.save()
+        if len(self.__fl_ar) > 2:
+            errormessage = _("Max two files can be selecteda")
+            ErrorDialog(_("Error:"), errormessage)
+            self.__fl_ar = self.__old_fl_ar
+        else:
+            config.save()
 
     def save_update_options(self, obj):
         """
@@ -173,7 +181,6 @@ class LocalTerm(Gramplet):
         Load stored configuration data.
         """
         self.__show_error = True
-        local_log.info("Antal = %d", len(self.gui.data))
         self.__url_bas = config.get("myopt.url_bas")
         self.__fg_sel = config.get("myopt.fg_sel_col")
         self.__bg_sel = config.get("myopt.bg_sel_col")
@@ -198,10 +205,8 @@ class LocalTerm(Gramplet):
         """
         loading the file into the treeview
         """
-        local_log.info("FILENANME %s", flnm)
+        local_log.info("load file %s",flnm)
         self.sort_date = ""
-#        lang1_txt = {}
-#        lang1_loc = {}
         if self.filenbr == 0:
             self.lang1_txt.clear()
             self.lang1_loc.clear()
@@ -250,7 +255,6 @@ class LocalTerm(Gramplet):
         if (len(self.__fl_ar) == 1) or (self.filenbr == 1):
             for key1, value1 in self.lang2_loc.items():
                 if not key1 in self.lang1_txt:
-                    local_log.info("Indsætter %s ",key1)
                     self.lang1_loc[key1] = value1
                     self.lang1_txt[key1] = ""
 
@@ -262,7 +266,7 @@ class LocalTerm(Gramplet):
         self.model.clear()
         local_log.info("Main kaldet")
         self.filenbr = 0;
-        local_log.info("file %s",len(self.__fl_ar))
+        self.__old_fl_ar = self.__fl_ar
         for flnm in self.__fl_ar:
             flnm = os.path.join(os.path.dirname(__file__), flnm)
             if not os.path.exists(flnm):
@@ -272,8 +276,6 @@ class LocalTerm(Gramplet):
             if os.path.exists(flnm):
                 if os.path.isfile(flnm):
                     self.load_file(flnm)
-                    local_log.info("filename = %s",flnm)
-                    local_log.info("filenbr = %s",self.filenbr)
                     self.filenbr = self.filenbr + 1 
                 else:
                     self.set_text("No file " + flnm)
@@ -284,7 +286,6 @@ class LocalTerm(Gramplet):
         """
         Called when the active person is changed.
         """
-        local_log.info("Active changed")
         self.update()
 
     def act(self, _tree_view, path, _column):
@@ -292,7 +293,7 @@ class LocalTerm(Gramplet):
         Called when the user double-click a row
         """
         tree_iter = self.model.get_iter(path)
-#        url = self.model.get_value(tree_iter, 4)
+        url = self.__url_bas + '#'+self.model.get_value(tree_iter, 2).strip()
         if url.startswith("https://"):
             display_url(url)
         else:
@@ -310,12 +311,16 @@ class LocalTerm(Gramplet):
         # define array from_date, to_date, Eventsdescription, link to internet, sort_date, foreground_colour, backgroud_colour
         # Only first three comlumns are visible
         self.model = Gtk.ListStore(str, str, str, str, str, str)
+#        button1 = Gtk.Entry()
+#        button1.set_text('Kaj Was Here')
         top = Gtk.TreeView()
         top.connect("row-activated", self.act)
         renderer = Gtk.CellRendererText()
+#        if (len(self.__fl_ar) == 1):
+#            local_log.info("Filename 1 %s",self.__fl_ar[0])
 
         column = Gtk.TreeViewColumn(
-            _("Term"), renderer, text=0, foreground=4, background=5
+            _("Translatable"), renderer, text=0, foreground=4, background=5
         )
         #        column.set_expand(False)
         #        column.set_resizable(True)
@@ -326,23 +331,22 @@ class LocalTerm(Gramplet):
         top.append_column(column)
 
         column = Gtk.TreeViewColumn(
-            _("Translatable"), renderer, text=1, foreground=4, background=5
+            _("Language 1"), renderer, text=1, foreground=4, background=5
         )
         column.set_sort_column_id(1)
         #        column.set_fixed_width(50)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
 
         top.append_column(column)
-
         column = Gtk.TreeViewColumn(
-            _("Local"), renderer, text=2, foreground=4, background=5
+            _("Anchor"), renderer, text=2, foreground=4, background=5
         )
         column.set_sort_column_id(2)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         top.append_column(column)
 
         column = Gtk.TreeViewColumn(
-            _("tst"), renderer, text=3, foreground=4, background=5
+            _("Language 2"), renderer, text=3, foreground=4, background=5
         )
         column.set_sort_column_id(3)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
