@@ -1,4 +1,7 @@
 term, translatable, anchor
+"Danish", ' in English', 
+"dansk", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#Not_enabled
+"Sprog", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators
 "Fokusperson", '_("Active Person")', active_person
 "Tillæg", '_("Addon")', addon
 "Tillæg", '_("Add-on")', addon
@@ -6,4 +9,5 @@ term, translatable, anchor
 "administrativ inddeling", '_("administrative division")', administrative_division
 "Hjælper", '_("Aide")', aide
 "Sted", '_("Place")', place
-
+"Hjemmeperson", '_("Home Person")', home_person
+"Kategori", '_("Category")', category
