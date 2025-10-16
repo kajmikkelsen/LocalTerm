@@ -24,7 +24,7 @@
 # 20251009
 # added functionality for two languages
 # cleaned up the setup
-# 20251014 
+# 20251014
 # Fixed issue with error when calling the URL
 # changed header names
 # ----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ show_error = True
 _config_file = os.path.join(os.path.dirname(__file__), "LocalTerm")
 
 config = configman.register_manager(_config_file)
-config.register("myopt.url_bas", "https://gramps-project.org/wiki/index.php/Gramps_Glossary")
+config.register("myopt.url_bas", "https://gramps-project.org/wiki/index.php/Gramps_Glossary#")
 config.register("myopt.files", "en_US_localterm.txt")
 config.register("myopt.fg_sel_col", "#000000")
 config.register("myopt.bg_sel_col", "#ffffff")
@@ -197,6 +197,8 @@ class LocalTerm(Gramplet):
         or there are less than 2 characters, return the string unchanged.
         """
         s = s.strip()
+        if (len(s) >= 7 and s[0] == s[-1]) and s.startswith(("'_(", '"_(')):
+            return s[4:-3]
         if (len(s) >= 2 and s[0] == s[-1]) and s.startswith(("'", '"')):
             return s[1:-1]
         return s
@@ -216,7 +218,7 @@ class LocalTerm(Gramplet):
         with open(flnm, encoding="utf-8") as myfile:
             for line in myfile:
                 self.linenbr += 1
-                if self.linenbr > 1: 
+                if self.linenbr > 1:
                     line = line.rstrip() + ","
                     words = line.split(",")
                     if len(words) != 4:
@@ -276,7 +278,7 @@ class LocalTerm(Gramplet):
             if os.path.exists(flnm):
                 if os.path.isfile(flnm):
                     self.load_file(flnm)
-                    self.filenbr = self.filenbr + 1 
+                    self.filenbr = self.filenbr + 1
                 else:
                     self.set_text("No file " + flnm)
             else:
@@ -293,7 +295,7 @@ class LocalTerm(Gramplet):
         Called when the user double-click a row
         """
         tree_iter = self.model.get_iter(path)
-        url = self.__url_bas + '#'+self.model.get_value(tree_iter, 2).strip()
+        url = self.__url_bas +self.model.get_value(tree_iter, 2).strip()
         if url.startswith("https://"):
             display_url(url)
         else:
@@ -320,7 +322,7 @@ class LocalTerm(Gramplet):
 #            local_log.info("Filename 1 %s",self.__fl_ar[0])
 
         column = Gtk.TreeViewColumn(
-            _("Translatable"), renderer, text=0, foreground=4, background=5
+            _("Source"), renderer, text=0, foreground=4, background=5
         )
         #        column.set_expand(False)
         #        column.set_resizable(True)
@@ -336,13 +338,6 @@ class LocalTerm(Gramplet):
         column.set_sort_column_id(1)
         #        column.set_fixed_width(50)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
-
-        top.append_column(column)
-        column = Gtk.TreeViewColumn(
-            _("Anchor"), renderer, text=2, foreground=4, background=5
-        )
-        column.set_sort_column_id(2)
-        column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         top.append_column(column)
 
         column = Gtk.TreeViewColumn(
@@ -352,10 +347,18 @@ class LocalTerm(Gramplet):
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         top.append_column(column)
 
-        #        column = Gtk.TreeViewColumn(_('Link'), renderer, text=3,foreground=4,background=5)
-        #        column.set_sort_column_id(3)
-        #        column.set_fixed_width(150)
-        #        top.append_column(column)
+        #column = Gtk.TreeViewColumn(
+        #    _("Anchor"), renderer, text=2, foreground=4, background=5
+        #)
+        #column.set_sort_column_id(2)
+        #column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
+        #top.append_column(column)
+
+        #column = Gtk.TreeViewColumn(_('Link'), renderer, text=3, foreground=4, background=5)
+        #column.set_sort_column_id(3)
+        #column.set_fixed_width(150)
+        #top.append_column(column)
+
         self.model.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         top.set_model(self.model)
         return top
