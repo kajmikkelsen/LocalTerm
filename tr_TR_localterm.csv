@@ -1,0 +1,12 @@
+term, translatable, anchor
+"Turkish", ' in English', https://gramps-project.org/wiki/index.php/Gramps_Glossary/tr#
+"Türkçe", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#Not_enabled
+"Diller", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators
+"Etkin Kişi", '_("Active Person")', active_person
+"Eklenti", '_("Addon")', addon
+"Eklenti", '_("Add-on")', addon
+"Adres", '_("Address")', address
+"idari bölünüş", '_("administrative division")', administrative_division
+"Yardımcı", '_("Aide")', aide
+"Ana Kişi", '_("Home Person")', home_person
+"Görünüm bölümü", '_("Category")', category

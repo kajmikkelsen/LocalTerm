@@ -27,6 +27,12 @@
 # 20251014 
 # Fixed issue with error when calling the URL
 # changed header names
+# 20251022
+# Added more test files (Thanks Brian McCullogh)
+# Changes filenames to csv
+# verified that the file glob ignores case
+# added the setup option of hiding the anchor column
+# added the function of changing the anchor visibility in runtime
 # ----------------------------------------------------------------------------
 """
     Local term - a plugin for showing translatable terms
@@ -87,10 +93,12 @@ except ValueError:
 _ = _trans.gettext
 lang = glocale.lang
 show_error = True
+local_log.info("---> before any fuction is called")
 # local_log.info("Maximum age = %s",_MAX_AGE_PROB_ALIVE);
 _config_file = os.path.join(os.path.dirname(__file__), "LocalTerm")
 
 config = configman.register_manager(_config_file)
+config.register("myopt.show_anchor",False)
 config.register("myopt.url_bas", "https://gramps-project.org/wiki/index.php/Gramps_Glossary")
 config.register("myopt.files", "en_US_localterm.txt")
 config.register("myopt.fg_sel_col", "#000000")
@@ -109,6 +117,9 @@ class LocalTerm(Gramplet):
         local_log.info("--> dette var init")
         # local_log.info("version: %s",HistContext.)
         #        self.gui.model = Gtk.ListStore(str, str, str, str, str)
+        config.load()
+#        self.__show_anchor = config.get("myopt.show_anchor")
+#        local_log.info("In init show anchor %s",self.__show_anchor)
         self.gui.WIDGET = self.build_gui()
         self.gui.get_container_widget().remove(self.gui.textview)
         self.gui.get_container_widget().add(self.gui.WIDGET)
@@ -119,18 +130,20 @@ class LocalTerm(Gramplet):
         self.lang2_txt = {}
         self.lang1_loc = {}
         self.lang2_loc = {}
-        config.load()
-
+ 
     def build_options(self):
         """
         Build the configuration options.
         """
-
+        local_log.info("--> build_options")
         files = []
         self.opts = []
 
         name = _("The URL base the anchor will be attached to")
         opt = StringOption(name, self.__url_bas)
+        self.opts.append(opt)
+        name = _("Show anchor column")
+        opt = BooleanOption(name,self.__show_anchor)
         self.opts.append(opt)
         name = _("Foreground color")
         opt = ColorOption(name, self.__fg_sel)
@@ -138,7 +151,7 @@ class LocalTerm(Gramplet):
         name = _("Background color")
         opt = ColorOption(name, self.__bg_sel)
         self.opts.append(opt)
-        flnam = os.path.join(os.path.dirname(__file__), "*localterm.txt")
+        flnam = os.path.join(os.path.dirname(__file__), "*localterm.csv")
         files = [f for f in glob.glob(flnam)]
         opt = BooleanListOption(_("Select from files"))
         for filnm in files:
@@ -153,11 +166,15 @@ class LocalTerm(Gramplet):
         Save gramplet configuration data.
         """
         # pylint: disable=attribute-defined-outside-init
+        local_log.info("--> save_options")
         self.__url_bas = self.opts[0].get_value()
-        self.__fg_sel = self.opts[1].get_value()
-        self.__bg_sel = self.opts[2].get_value()
+        self.__show_anchor = self.opts[1].get_value()
+        local_log.info("Anchor = %s",self.__show_anchor)
+        self.__fg_sel = self.opts[2].get_value()
+        self.__bg_sel = self.opts[3].get_value()
         self.__old_fl_ar = self.__fl_ar
-        self.__fl_ar = self.opts[3].get_selected()
+        self.__fl_ar = self.opts[4].get_selected()
+        config.set("myopt.show_anchor",self.__show_anchor)
         config.set("myopt.url_bas", self.__url_bas)
         config.set("myopt.fg_sel_col", self.__fg_sel)
         config.set("myopt.bg_sel_col", self.__bg_sel)
@@ -173,6 +190,7 @@ class LocalTerm(Gramplet):
         """
         Save a gramplet's options to file.
         """
+        local_log.info("--> save_update_options")
         self.save_options()
         self.update()
 
@@ -180,12 +198,14 @@ class LocalTerm(Gramplet):
         """
         Load stored configuration data.
         """
+        local_log.info("--> on_load function")
         self.__show_error = True
+        self.__show_anchor = config.get("myopt.show_anchor")
         self.__url_bas = config.get("myopt.url_bas")
         self.__fg_sel = config.get("myopt.fg_sel_col")
         self.__bg_sel = config.get("myopt.bg_sel_col")
         self.__fl_ar = config.get("myopt.fl_ar")
-
+#        self.model[2].set_visible(False)
     #        if self.__fl_ar[0] == "None":
     #           self.__fl_ar[0] = os.path.basename(self.__sel_file)
 
@@ -205,7 +225,7 @@ class LocalTerm(Gramplet):
         """
         loading the file into the treeview
         """
-        local_log.info("load file %s",flnm)
+        local_log.info("--> load file %s",flnm)
         self.sort_date = ""
         if self.filenbr == 0:
             self.lang1_txt.clear()
@@ -264,7 +284,9 @@ class LocalTerm(Gramplet):
 
     def main(self):
         self.model.clear()
-        local_log.info("Main kaldet")
+        col = self.gui.WIDGET.get_column(2) 
+        col.set_visible(self.__show_anchor)
+        local_log.info("--> Main kaldet")
         self.filenbr = 0;
         self.__old_fl_ar = self.__fl_ar
         for flnm in self.__fl_ar:
@@ -286,12 +308,14 @@ class LocalTerm(Gramplet):
         """
         Called when the active person is changed.
         """
+        local_log.info("--> active_changed called")
         self.update()
 
     def act(self, _tree_view, path, _column):
         """
         Called when the user double-click a row
         """
+        local_log.info("--> act called")
         tree_iter = self.model.get_iter(path)
         url = self.__url_bas + '#'+self.model.get_value(tree_iter, 2).strip()
         if url.startswith("https://"):
@@ -304,7 +328,9 @@ class LocalTerm(Gramplet):
         """
         Build the GUI interface.
         """
-        local_log.info("-->build gui")
+        local_log.info("--> build gui")
+        self.__show_anchor = config.get("myopt.show_anchor")
+        local_log.info(self.__show_anchor)
         tip = _("Double click row to follow link")
         self.set_tooltip(tip)
         # pylint: disable=attribute-defined-outside-init
@@ -343,6 +369,11 @@ class LocalTerm(Gramplet):
         )
         column.set_sort_column_id(2)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
+        if self.__show_anchor:
+            column.set_visible(True)
+        else:
+            column.set_visible(False)
+        
         top.append_column(column)
 
         column = Gtk.TreeViewColumn(
