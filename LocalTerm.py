@@ -35,6 +35,8 @@
 # added the function of changing the anchor visibility in runtime
 # 20251023
 # if anchor starts with https:// the anchor becomes the URL other wise th URL is Combined from the baseurl in setup and the anchor
+# added search functionality
+# added search language option
 # ----------------------------------------------------------------------------
 """
     Local term - a plugin for showing translatable terms
@@ -67,6 +69,7 @@ from gramps.gen.plug.menu import (
     StringOption,
     BooleanListOption,
     ColorOption,
+    NumberOption
 )
 
 # from gi.repository import Pango
@@ -102,6 +105,7 @@ _config_file = os.path.join(os.path.dirname(__file__), "LocalTerm")
 config = configman.register_manager(_config_file)
 config.register("myopt.show_anchor",False)
 config.register("myopt.url_bas", "https://gramps-project.org/wiki/index.php/Gramps_Glossary")
+config.register("myopt.search_lang",1)
 config.register("myopt.files", "en_US_localterm.txt")
 config.register("myopt.fg_sel_col", "#000000")
 config.register("myopt.bg_sel_col", "#ffffff")
@@ -147,6 +151,9 @@ class LocalTerm(Gramplet):
         name = _("Show anchor column")
         opt = BooleanOption(name,self.__show_anchor)
         self.opts.append(opt)
+        name = _("Search language")
+        opt = NumberOption(name, self.__search_lang, 1, 2, 1)
+        self.opts.append(opt)
         name = _("Foreground color")
         opt = ColorOption(name, self.__fg_sel)
         self.opts.append(opt)
@@ -171,13 +178,15 @@ class LocalTerm(Gramplet):
         local_log.info("--> save_options")
         self.__url_bas = self.opts[0].get_value()
         self.__show_anchor = self.opts[1].get_value()
+        self.__search_lang = self.opts[2].get_value()
         local_log.info("Anchor = %s",self.__show_anchor)
-        self.__fg_sel = self.opts[2].get_value()
-        self.__bg_sel = self.opts[3].get_value()
+        self.__fg_sel = self.opts[3].get_value()
+        self.__bg_sel = self.opts[4].get_value()
         self.__old_fl_ar = self.__fl_ar
-        self.__fl_ar = self.opts[4].get_selected()
+        self.__fl_ar = self.opts[5].get_selected()
         config.set("myopt.show_anchor",self.__show_anchor)
         config.set("myopt.url_bas", self.__url_bas)
+        config.set("myopt.search_lang", self.__search_lang)
         config.set("myopt.fg_sel_col", self.__fg_sel)
         config.set("myopt.bg_sel_col", self.__bg_sel)
         config.set("myopt.fl_ar", self.__fl_ar)
@@ -203,6 +212,7 @@ class LocalTerm(Gramplet):
         local_log.info("--> on_load function")
         self.__show_error = True
         self.__show_anchor = config.get("myopt.show_anchor")
+        self.__search_lang = config.get("myopt.search_lang")
         self.__url_bas = config.get("myopt.url_bas")
         self.__fg_sel = config.get("myopt.fg_sel_col")
         self.__bg_sel = config.get("myopt.bg_sel_col")
@@ -288,6 +298,10 @@ class LocalTerm(Gramplet):
         self.model.clear()
         col = self.gui.WIDGET.get_column(2) 
         col.set_visible(self.__show_anchor)
+        if self.__search_lang == 2:
+            self.gui.WIDGET.set_search_column(3)
+        else:
+            self.gui.WIDGET.set_search_column(1)
         local_log.info("--> Main kaldet")
         self.filenbr = 0;
         self.__old_fl_ar = self.__fl_ar
@@ -327,6 +341,8 @@ class LocalTerm(Gramplet):
         else:
             errormessage = _("Cannot open URL: ") + url
             ErrorDialog(_("Error:"), errormessage)
+    
+
 
     def build_gui(self):
         """
@@ -334,6 +350,7 @@ class LocalTerm(Gramplet):
         """
         local_log.info("--> build gui")
         self.__show_anchor = config.get("myopt.show_anchor")
+        self.__search_lang = config.get("myopt.search_lang")
         local_log.info(self.__show_anchor)
         tip = _("Double click row to follow link")
         self.set_tooltip(tip)
@@ -346,8 +363,6 @@ class LocalTerm(Gramplet):
         top = Gtk.TreeView()
         top.connect("row-activated", self.act)
         renderer = Gtk.CellRendererText()
-#        if (len(self.__fl_ar) == 1):
-#            local_log.info("Filename 1 %s",self.__fl_ar[0])
 
         column = Gtk.TreeViewColumn(
             _("Translatable"), renderer, text=0, foreground=4, background=5
@@ -366,6 +381,7 @@ class LocalTerm(Gramplet):
         column.set_sort_column_id(1)
         #        column.set_fixed_width(50)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
+
 
         top.append_column(column)
         column = Gtk.TreeViewColumn(
@@ -393,4 +409,8 @@ class LocalTerm(Gramplet):
         #        top.append_column(column)
         self.model.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         top.set_model(self.model)
+        if self.__search_lang == 2:
+            top.set_search_column(3)
+        else:
+            top.set_search_column(1)
         return top
