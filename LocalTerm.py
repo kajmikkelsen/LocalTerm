@@ -33,6 +33,8 @@
 # verified that the file glob ignores case
 # added the setup option of hiding the anchor column
 # added the function of changing the anchor visibility in runtime
+# 20251023
+# if anchor starts with https:// the anchor becomes the URL other wise th URL is Combined from the baseurl in setup and the anchor
 # ----------------------------------------------------------------------------
 """
     Local term - a plugin for showing translatable terms
@@ -317,7 +319,9 @@ class LocalTerm(Gramplet):
         """
         local_log.info("--> act called")
         tree_iter = self.model.get_iter(path)
-        url = self.__url_bas + '#'+self.model.get_value(tree_iter, 2).strip()
+        url = self.model.get_value(tree_iter, 2).strip()
+        if not url.startswith("https://"):
+            url = self.__url_bas + '#'+url
         if url.startswith("https://"):
             display_url(url)
         else:
