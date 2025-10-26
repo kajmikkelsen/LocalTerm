@@ -37,11 +37,13 @@
 # if anchor starts with https:// the anchor becomes the URL other wise th URL is Combined from the baseurl in setup and the anchor
 # added search functionality
 # added search language option
+# 20251024
+# added function clean_translatable to remove _() from the translatable term
+# removed active change routine, this has nothing to do with the active person
 # ----------------------------------------------------------------------------
 """
     Local term - a plugin for showing translatable terms
-    Will show the person in a historical context
-    """
+"""
 
 # File: LocalTerm.py
 # from gramps.gen.plug import Gramplet
@@ -232,6 +234,16 @@ class LocalTerm(Gramplet):
         if (len(s) >= 2 and s[0] == s[-1]) and s.startswith(("'", '"')):
             return s[1:-1]
         return s
+    
+    def clean_translatable(self,s):
+        """
+        if s starts with '_(' and ends with ')' remove these
+        """
+        s = self.dequote(s)
+        if s.startswith("_(") and s.endswith(")"):
+            return s[2:-1].strip()
+        return s    
+    
 
     def load_file(self, flnm):
         """
@@ -265,16 +277,10 @@ class LocalTerm(Gramplet):
                             ErrorDialog(_("Error:"), errormessage)
                     else:
                             words[0] = self.dequote(words[0])
+                            words[1] = self.clean_translatable(words[1])
                             words[1] = self.dequote(words[1])
-#
-#                            mytupple = (
-#                                words[0],
-#                                words[1],
-#                                words[2],
-#                                '',
-#                                self.__fg_sel,
-#                                self.__bg_sel,
-#                            )
+
+
                             if self.filenbr == 0:
                                 self.lang1_txt[words[1]] = words[0]
                                 self.lang1_loc[words[1]]= words[2]
@@ -283,7 +289,6 @@ class LocalTerm(Gramplet):
                                 self.lang2_txt[words[1]] = words[0]
                                 self.lang2_loc[words[1]] = words[2]
 
-#                            self.model.append(mytupple)
         if (len(self.__fl_ar) == 1) or (self.filenbr == 1):
             for key1, value1 in self.lang2_loc.items():
                 if not key1 in self.lang1_txt:
@@ -320,12 +325,6 @@ class LocalTerm(Gramplet):
             else:
                 self.set_text("No path " + flnm)
 
-    def active_changed(self, handle):
-        """
-        Called when the active person is changed.
-        """
-        local_log.info("--> active_changed called")
-        self.update()
 
     def act(self, _tree_view, path, _column):
         """
@@ -354,12 +353,7 @@ class LocalTerm(Gramplet):
         local_log.info(self.__show_anchor)
         tip = _("Double click row to follow link")
         self.set_tooltip(tip)
-        # pylint: disable=attribute-defined-outside-init
-        # define array from_date, to_date, Eventsdescription, link to internet, sort_date, foreground_colour, backgroud_colour
-        # Only first three comlumns are visible
         self.model = Gtk.ListStore(str, str, str, str, str, str)
-#        button1 = Gtk.Entry()
-#        button1.set_text('Kaj Was Here')
         top = Gtk.TreeView()
         top.connect("row-activated", self.act)
         renderer = Gtk.CellRendererText()
@@ -367,10 +361,6 @@ class LocalTerm(Gramplet):
         column = Gtk.TreeViewColumn(
             _("Translatable"), renderer, text=0, foreground=4, background=5
         )
-        #        column.set_expand(False)
-        #        column.set_resizable(True)
-        #        column.set_sizing(Gtk.TreeViewColumnSizing.FIXED)
-        #        column.set_fixed_width(50)
         column.set_sort_column_id(0)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         top.append_column(column)
@@ -379,7 +369,6 @@ class LocalTerm(Gramplet):
             _("Language 1"), renderer, text=1, foreground=4, background=5
         )
         column.set_sort_column_id(1)
-        #        column.set_fixed_width(50)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
 
 
@@ -403,10 +392,6 @@ class LocalTerm(Gramplet):
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
         top.append_column(column)
 
-        #        column = Gtk.TreeViewColumn(_('Link'), renderer, text=3,foreground=4,background=5)
-        #        column.set_sort_column_id(3)
-        #        column.set_fixed_width(150)
-        #        top.append_column(column)
         self.model.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         top.set_model(self.model)
         if self.__search_lang == 2:
