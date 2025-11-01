@@ -1,7 +1,7 @@
 term, translatable, anchor
 "German", ' in English', https://gramps-project.org/wiki/index.php/Gramps_Glossary/de#
-"Deutsch", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#Enabled
-"Sprachen", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators
+"Deutsch", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#de
+"Sprachen", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators#de
 "Aktive Person", '_("Active Person")', active_person
 "Erweiterung", '_("Addon")', addon
 "Erweiterung", '_("Add-on")', addon

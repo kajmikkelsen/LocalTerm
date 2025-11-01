@@ -1,7 +1,7 @@
 term, translatable, anchor
 "English", ' in English', https://gramps-project.org/wiki/index.php/Gramps_Glossary#
-"English", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#Enabled
-"Languages", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators
+"English", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#en
+"Languages", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators#en
 "Active Person", '_("Active Person")', active_person
 "Addon", '_("Addon")', addon
 "Add-on", '_("Add-on")', addon
@@ -106,7 +106,7 @@ term, translatable, anchor
 "Tags", '_("Tags")', tag
 "Toolbar", '_("Toolbar")', toolbar
 "Typographical conventions", '_("Typographical conventions")', Typographical_conventions
-"Unkown", '_("Unkown")', unknown
+"Unknown", '_("Unknown")', unknown
 "User Directory", '_("User Directory")', user_directory
 "View", '_("View")', view
 "View category", '_("View category")', view_category
