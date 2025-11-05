@@ -72,6 +72,7 @@ from gramps.gen.plug.menu import (
     BooleanListOption,
     ColorOption,
     NumberOption,
+    EnumeratedListOption,
 )
 
 # from gi.repository import Pango
@@ -113,12 +114,14 @@ config.register("myopt.search_lang", 1)
 config.register("myopt.files", "en_US_localterm.txt")
 config.register("myopt.fg_sel_col", "#000000")
 config.register("myopt.bg_sel_col", "#ffffff")
-config.register("myopt.fl_ar", ["en_US_localterm.txt"])
+config.register("myopt.lang1",0)
+config.register("myopt.lang2",0)
+
 
 
 class LocalTerm(Gramplet):
     """
-    class for showing a timeline
+    class for showing an index of translatable terms
     """
 
     # pylint: disable=too-many-instance-attributes
@@ -131,6 +134,8 @@ class LocalTerm(Gramplet):
         self.gui.get_container_widget().add(self.gui.WIDGET)
         self.gui.WIDGET.show()
         self.model.clear()
+        flnam = os.path.join(os.path.dirname(__file__), "*localterm.csv")
+        self.__files = [f for f in glob.glob(flnam)]
 
         self.lang1_txt = {}
         self.lang2_txt = {}
@@ -142,7 +147,6 @@ class LocalTerm(Gramplet):
         Build the configuration options.
         """
         local_log.info("--> build_options")
-        files = []
         self.opts = []
 
         name = _("The URL base the anchor will be attached to")
@@ -160,15 +164,33 @@ class LocalTerm(Gramplet):
         name = _("Background color")
         opt = ColorOption(name, self.__bg_sel)
         self.opts.append(opt)
-        flnam = os.path.join(os.path.dirname(__file__), "*localterm.csv")
-        files = [f for f in glob.glob(flnam)]
-        opt = BooleanListOption(_("Select from files"))
-        for filnm in files:
+        local_log.info("files = %s", self.__files)
+        opt = EnumeratedListOption(_("Language 1"),self.__lang1)
+        i = 0
+        for filnm in self.__files:
             short_fil_name = os.path.basename(filnm)
-            bol_val = short_fil_name in self.__fl_ar
-            opt.add_button(os.path.basename(filnm), bol_val)
+            opt.add_item(i,short_fil_name)
+            i += 1
         self.opts.append(opt)
+        opt = EnumeratedListOption(_("Language 2"),self.__lang2)
+        i = 0
+        for filnm in self.__files:
+            short_fil_name = os.path.basename(filnm)
+            opt.add_item(i,short_fil_name)
+            i += 1
+        self.opts.append(opt)
+        self.set_fl_ar()
+        local_log.info("chosen files =%s  %s",self.__files[self.__lang1],self.__files[self.__lang2 ])
         list(map(self.add_option, self.opts))
+    
+    def set_fl_ar(self):
+        """
+        set the file array based on the selected languages
+        """
+        self.__fl_ar = []
+        self.__fl_ar.append(os.path.basename(self.__files[self.__lang1]))
+        if self.__lang2 != self.__lang1:
+            self.__fl_ar.append(os.path.basename(self.__files[self.__lang2]))
 
     def save_options(self):
         """
@@ -181,18 +203,24 @@ class LocalTerm(Gramplet):
         self.__search_lang = self.opts[2].get_value()
         self.__fg_sel = self.opts[3].get_value()
         self.__bg_sel = self.opts[4].get_value()
-        self.__old_fl_ar = self.__fl_ar
-        self.__fl_ar = self.opts[5].get_selected()
+        self.__lang1 = self.opts[5].get_value()
+        self.__lang2 = self.opts[6].get_value()
+        self.set_fl_ar()
+
+        local_log.info("lang1 = %s", self.__lang1)
         config.set("myopt.show_anchor", self.__show_anchor)
         config.set("myopt.url_bas", self.__url_bas)
         config.set("myopt.search_lang", self.__search_lang)
         config.set("myopt.fg_sel_col", self.__fg_sel)
         config.set("myopt.bg_sel_col", self.__bg_sel)
-        config.set("myopt.fl_ar", self.__fl_ar)
+        local_log.info("lang1 = %s", self.__lang1)
+        config.set("myopt.lang1",self.__lang1)
+        config.set("myopt.lang2",self.__lang2)
+
+        local_log.info("lang1  nu = %s", self.__lang1)        
         if len(self.__fl_ar) > 2:
             errormessage = _("Max two files can be selecteda")
             ErrorDialog(_("Error:"), errormessage)
-            self.__fl_ar = self.__old_fl_ar
         else:
             config.save()
 
@@ -215,7 +243,9 @@ class LocalTerm(Gramplet):
         self.__url_bas = config.get("myopt.url_bas")
         self.__fg_sel = config.get("myopt.fg_sel_col")
         self.__bg_sel = config.get("myopt.bg_sel_col")
-        self.__fl_ar = config.get("myopt.fl_ar")
+        self.__lang1 = config.get("myopt.lang1")
+        self.__lang2 = config.get("myopt.lang2")
+        local_log.info("lang1 i load = %s", self.__lang1)
 
     def dequote(self, s):
         """
@@ -307,8 +337,9 @@ class LocalTerm(Gramplet):
         else:
             self.gui.WIDGET.set_search_column(1)
         local_log.info("--> Main kaldet")
+        local_log.info("files to load = %s", self.__fl_ar)  
         self.filenbr = 0
-        self.__old_fl_ar = self.__fl_ar
+#        self.__files = []
         for flnm in self.__fl_ar:
             flnm = os.path.join(os.path.dirname(__file__), flnm)
             if not os.path.exists(flnm):
@@ -333,6 +364,7 @@ class LocalTerm(Gramplet):
         url = self.model.get_value(tree_iter, 2).strip()
         if not url.startswith("https://"):
             url = self.__url_bas + "#" + url
+        local_log.info("URL after processing: %s", url)
         if url.startswith("https://"):
             display_url(url)
         else:
