@@ -24,7 +24,7 @@
 # 20251009
 # added functionality for two languages
 # cleaned up the setup
-# 20251014 
+# 20251014
 # Fixed issue with error when calling the URL
 # changed header names
 # 20251022
@@ -42,7 +42,7 @@
 # removed active change routine, this has nothing to do with the active person
 # ----------------------------------------------------------------------------
 """
-    Local term - a plugin for showing translatable terms
+Local term - a plugin for showing translatable terms
 """
 
 # File: LocalTerm.py
@@ -71,7 +71,8 @@ from gramps.gen.plug.menu import (
     StringOption,
     BooleanListOption,
     ColorOption,
-    NumberOption
+    NumberOption,
+    EnumeratedListOption,
 )
 
 # from gi.repository import Pango
@@ -105,53 +106,54 @@ local_log.info("---> before any fuction is called")
 _config_file = os.path.join(os.path.dirname(__file__), "LocalTerm")
 
 config = configman.register_manager(_config_file)
-config.register("myopt.show_anchor",False)
-config.register("myopt.url_bas", "https://gramps-project.org/wiki/index.php/Gramps_Glossary")
-config.register("myopt.search_lang",1)
+config.register("myopt.show_anchor", False)
+config.register(
+    "myopt.url_bas", "https://gramps-project.org/wiki/index.php/Gramps_Glossary"
+)
+config.register("myopt.search_lang", 1)
 config.register("myopt.files", "en_US_localterm.txt")
 config.register("myopt.fg_sel_col", "#000000")
 config.register("myopt.bg_sel_col", "#ffffff")
-config.register("myopt.fl_ar", ["en_US_localterm.txt"])
+config.register("myopt.lang1",0)
+config.register("myopt.lang2",0)
+
 
 
 class LocalTerm(Gramplet):
     """
-    class for showing a timeline
+    class for showing an index of translatable terms
     """
 
     # pylint: disable=too-many-instance-attributes
 
     def init(self):
         local_log.info("--> dette var init")
-        # local_log.info("version: %s",HistContext.)
-        #        self.gui.model = Gtk.ListStore(str, str, str, str, str)
         config.load()
-#        self.__show_anchor = config.get("myopt.show_anchor")
-#        local_log.info("In init show anchor %s",self.__show_anchor)
         self.gui.WIDGET = self.build_gui()
         self.gui.get_container_widget().remove(self.gui.textview)
         self.gui.get_container_widget().add(self.gui.WIDGET)
         self.gui.WIDGET.show()
         self.model.clear()
+        flnam = os.path.join(os.path.dirname(__file__), "*localterm.csv")
+        self.__files = [f for f in glob.glob(flnam)]
 
         self.lang1_txt = {}
         self.lang2_txt = {}
         self.lang1_loc = {}
         self.lang2_loc = {}
- 
+
     def build_options(self):
         """
         Build the configuration options.
         """
         local_log.info("--> build_options")
-        files = []
         self.opts = []
 
         name = _("The URL base the anchor will be attached to")
         opt = StringOption(name, self.__url_bas)
         self.opts.append(opt)
         name = _("Show anchor column")
-        opt = BooleanOption(name,self.__show_anchor)
+        opt = BooleanOption(name, self.__show_anchor)
         self.opts.append(opt)
         name = _("Search language")
         opt = NumberOption(name, self.__search_lang, 1, 2, 1)
@@ -162,15 +164,33 @@ class LocalTerm(Gramplet):
         name = _("Background color")
         opt = ColorOption(name, self.__bg_sel)
         self.opts.append(opt)
-        flnam = os.path.join(os.path.dirname(__file__), "*localterm.csv")
-        files = [f for f in glob.glob(flnam)]
-        opt = BooleanListOption(_("Select from files"))
-        for filnm in files:
+        local_log.info("files = %s", self.__files)
+        opt = EnumeratedListOption(_("Language 1"),self.__lang1)
+        i = 0
+        for filnm in self.__files:
             short_fil_name = os.path.basename(filnm)
-            bol_val = short_fil_name in self.__fl_ar
-            opt.add_button(os.path.basename(filnm), bol_val)
+            opt.add_item(i,short_fil_name)
+            i += 1
         self.opts.append(opt)
+        opt = EnumeratedListOption(_("Language 2"),self.__lang2)
+        i = 0
+        for filnm in self.__files:
+            short_fil_name = os.path.basename(filnm)
+            opt.add_item(i,short_fil_name)
+            i += 1
+        self.opts.append(opt)
+        self.set_fl_ar()
+        local_log.info("chosen files =%s  %s",self.__files[self.__lang1],self.__files[self.__lang2 ])
         list(map(self.add_option, self.opts))
+    
+    def set_fl_ar(self):
+        """
+        set the file array based on the selected languages
+        """
+        self.__fl_ar = []
+        self.__fl_ar.append(os.path.basename(self.__files[self.__lang1]))
+        if self.__lang2 != self.__lang1:
+            self.__fl_ar.append(os.path.basename(self.__files[self.__lang2]))
 
     def save_options(self):
         """
@@ -181,21 +201,26 @@ class LocalTerm(Gramplet):
         self.__url_bas = self.opts[0].get_value()
         self.__show_anchor = self.opts[1].get_value()
         self.__search_lang = self.opts[2].get_value()
-        local_log.info("Anchor = %s",self.__show_anchor)
         self.__fg_sel = self.opts[3].get_value()
         self.__bg_sel = self.opts[4].get_value()
-        self.__old_fl_ar = self.__fl_ar
-        self.__fl_ar = self.opts[5].get_selected()
-        config.set("myopt.show_anchor",self.__show_anchor)
+        self.__lang1 = self.opts[5].get_value()
+        self.__lang2 = self.opts[6].get_value()
+        self.set_fl_ar()
+
+        local_log.info("lang1 = %s", self.__lang1)
+        config.set("myopt.show_anchor", self.__show_anchor)
         config.set("myopt.url_bas", self.__url_bas)
         config.set("myopt.search_lang", self.__search_lang)
         config.set("myopt.fg_sel_col", self.__fg_sel)
         config.set("myopt.bg_sel_col", self.__bg_sel)
-        config.set("myopt.fl_ar", self.__fl_ar)
+        local_log.info("lang1 = %s", self.__lang1)
+        config.set("myopt.lang1",self.__lang1)
+        config.set("myopt.lang2",self.__lang2)
+
+        local_log.info("lang1  nu = %s", self.__lang1)        
         if len(self.__fl_ar) > 2:
             errormessage = _("Max two files can be selecteda")
             ErrorDialog(_("Error:"), errormessage)
-            self.__fl_ar = self.__old_fl_ar
         else:
             config.save()
 
@@ -218,12 +243,11 @@ class LocalTerm(Gramplet):
         self.__url_bas = config.get("myopt.url_bas")
         self.__fg_sel = config.get("myopt.fg_sel_col")
         self.__bg_sel = config.get("myopt.bg_sel_col")
-        self.__fl_ar = config.get("myopt.fl_ar")
-#        self.model[2].set_visible(False)
-    #        if self.__fl_ar[0] == "None":
-    #           self.__fl_ar[0] = os.path.basename(self.__sel_file)
+        self.__lang1 = config.get("myopt.lang1")
+        self.__lang2 = config.get("myopt.lang2")
+        local_log.info("lang1 i load = %s", self.__lang1)
 
-    def dequote(self,s):
+    def dequote(self, s):
         """
         If a string has single or double quotes around it, remove them.
         Make sure the pair of quotes match.
@@ -234,22 +258,21 @@ class LocalTerm(Gramplet):
         if (len(s) >= 2 and s[0] == s[-1]) and s.startswith(("'", '"')):
             return s[1:-1]
         return s
-    
-    def clean_translatable(self,s):
+
+    def clean_translatable(self, s):
         """
         if s starts with '_(' and ends with ')' remove these
         """
         s = self.dequote(s)
         if s.startswith("_(") and s.endswith(")"):
             return s[2:-1].strip()
-        return s    
-    
+        return s
 
     def load_file(self, flnm):
         """
         loading the file into the treeview
         """
-        local_log.info("--> load file %s",flnm)
+        local_log.info("--> load file %s", flnm)
         self.sort_date = ""
         if self.filenbr == 0:
             self.lang1_txt.clear()
@@ -260,7 +283,7 @@ class LocalTerm(Gramplet):
         with open(flnm, encoding="utf-8") as myfile:
             for line in myfile:
                 self.linenbr += 1
-                if self.linenbr > 1: 
+                if self.linenbr > 1:
                     line = line.rstrip() + ","
                     words = line.split(",")
                     if len(words) != 4:
@@ -276,18 +299,17 @@ class LocalTerm(Gramplet):
                             errormessage = str(self.linenbr) + errormessage
                             ErrorDialog(_("Error:"), errormessage)
                     else:
-                            words[0] = self.dequote(words[0])
-                            words[1] = self.clean_translatable(words[1])
-                            words[1] = self.dequote(words[1])
+                        words[0] = self.dequote(words[0])
+                        words[1] = self.clean_translatable(words[1])
+                        words[1] = self.dequote(words[1])
 
-
-                            if self.filenbr == 0:
-                                self.lang1_txt[words[1]] = words[0]
-                                self.lang1_loc[words[1]]= words[2]
-                                self.lang2_txt[words[1]] = ""
-                            else:
-                                self.lang2_txt[words[1]] = words[0]
-                                self.lang2_loc[words[1]] = words[2]
+                        if self.filenbr == 0:
+                            self.lang1_txt[words[1]] = words[0]
+                            self.lang1_loc[words[1]] = words[2]
+                            self.lang2_txt[words[1]] = ""
+                        else:
+                            self.lang2_txt[words[1]] = words[0]
+                            self.lang2_loc[words[1]] = words[2]
 
         if (len(self.__fl_ar) == 1) or (self.filenbr == 1):
             for key1, value1 in self.lang2_loc.items():
@@ -296,20 +318,28 @@ class LocalTerm(Gramplet):
                     self.lang1_txt[key1] = ""
 
             for key, value in self.lang1_txt.items():
-                mytupple = (key,value,self.lang1_loc.get(key,"not found"),self.lang2_txt.get(key,"not found"),self.__fg_sel, self.__bg_sel,)
+                mytupple = (
+                    key,
+                    value,
+                    self.lang1_loc.get(key, "not found"),
+                    self.lang2_txt.get(key, "not found"),
+                    self.__fg_sel,
+                    self.__bg_sel,
+                )
                 self.model.append(mytupple)
 
     def main(self):
         self.model.clear()
-        col = self.gui.WIDGET.get_column(2) 
+        col = self.gui.WIDGET.get_column(2)
         col.set_visible(self.__show_anchor)
         if self.__search_lang == 2:
             self.gui.WIDGET.set_search_column(3)
         else:
             self.gui.WIDGET.set_search_column(1)
         local_log.info("--> Main kaldet")
-        self.filenbr = 0;
-        self.__old_fl_ar = self.__fl_ar
+        local_log.info("files to load = %s", self.__fl_ar)  
+        self.filenbr = 0
+#        self.__files = []
         for flnm in self.__fl_ar:
             flnm = os.path.join(os.path.dirname(__file__), flnm)
             if not os.path.exists(flnm):
@@ -319,12 +349,11 @@ class LocalTerm(Gramplet):
             if os.path.exists(flnm):
                 if os.path.isfile(flnm):
                     self.load_file(flnm)
-                    self.filenbr = self.filenbr + 1 
+                    self.filenbr = self.filenbr + 1
                 else:
                     self.set_text("No file " + flnm)
             else:
                 self.set_text("No path " + flnm)
-
 
     def act(self, _tree_view, path, _column):
         """
@@ -334,14 +363,13 @@ class LocalTerm(Gramplet):
         tree_iter = self.model.get_iter(path)
         url = self.model.get_value(tree_iter, 2).strip()
         if not url.startswith("https://"):
-            url = self.__url_bas + '#'+url
+            url = self.__url_bas + "#" + url
+        local_log.info("URL after processing: %s", url)
         if url.startswith("https://"):
             display_url(url)
         else:
             errormessage = _("Cannot open URL: ") + url
             ErrorDialog(_("Error:"), errormessage)
-    
-
 
     def build_gui(self):
         """
@@ -371,7 +399,6 @@ class LocalTerm(Gramplet):
         column.set_sort_column_id(1)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
 
-
         top.append_column(column)
         column = Gtk.TreeViewColumn(
             _("Anchor"), renderer, text=2, foreground=4, background=5
@@ -382,7 +409,7 @@ class LocalTerm(Gramplet):
             column.set_visible(True)
         else:
             column.set_visible(False)
-        
+
         top.append_column(column)
 
         column = Gtk.TreeViewColumn(
