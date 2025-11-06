@@ -1,5 +1,5 @@
 term, translatable, anchor
-"Danish", ' in English', https://gramps-project.org/wiki/index.php/Gramps_Glossary/da#
+"Danish", ' in English', https://gramps-project.org/wiki/index.php/Gramps_Glossary/da
 "dansk", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#da
 "Sprog", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators#da
 "Fokusperson", '_("Active Person")', active_person
@@ -114,4 +114,5 @@ term, translatable, anchor
 "Wiki", '_("Wiki")', wiki
 "Vidne", '_("Witness")', witness
 "XML", '_("XML")', xml
+
 
