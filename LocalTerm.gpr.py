@@ -5,7 +5,7 @@ register(
     description=_("Localized index to Gramps Glossary terms"),
     authors=["Kaj Mikkelsen"],
     status=EXPERIMENTAL,
-    version = '0.1.1',
+    version = '0.1.2',
     fname="LocalTerm.py",
     height=20,
     detached_width=510,
