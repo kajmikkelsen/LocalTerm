@@ -1,0 +1,12 @@
+term, translatable, anchor
+"Spanish", ' in English', https://gramps-project.org/wiki/index.php/Gramps_Glossary/es#
+"español", ' natively', https://gramps-project.org/wiki/index.php/User_manual_translations#es
+"Idiomas", '_("Languages")', https://gramps-project.org/wiki/index.php/Portal:Translators#es
+"Persona activa", '_("Active Person")', active_person
+"Complemento", '_("Addon")', addon
+"Complemento", '_("Add-on")', addon
+"Dirección", '_("Address")', address
+"División administrativa", '_("administrative division")', administrative_division
+"Ayudante", '_("Aide")', aide
+"Persona principal", '_("Home Person")', home_person
+"Categoría", '_("Category")', category
