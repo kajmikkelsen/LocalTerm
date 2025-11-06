@@ -1,7 +1,7 @@
 #
 # Gramps - a GTK+/GNOME based genealogy program
 #
-# Copyright (C) 2024 Kaj Mikkelsen <kmi@vgdata.dk>
+# Copyright (C) 2024-2025 Kaj Mikkelsen <kmi@vgdata.dk>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ lang = glocale.lang
 show_error = True
 local_log.info("---> before any fuction is called")
 # local_log.info("Maximum age = %s",_MAX_AGE_PROB_ALIVE);
-_config_file = os.path.join(os.path.dirname(__file__), "LocalTerm")
+_config_file = os.path.join(os.path.dirname(__file__), "data", "LocalTerm")
 
 config = configman.register_manager(_config_file)
 config.register("myopt.show_anchor", False)
@@ -140,7 +140,7 @@ class LocalTerm(Gramplet):
         self.gui.get_container_widget().add(self.gui.WIDGET)
         self.gui.WIDGET.show()
         self.model.clear()
-        flnam = os.path.join(os.path.dirname(__file__), "*localterm.csv")
+        flnam = os.path.join(os.path.dirname(__file__), "data", "*localterm.csv")
         self.__files = [f for f in glob.glob(flnam)]
 
         self.lang1_txt = {}
@@ -188,7 +188,7 @@ class LocalTerm(Gramplet):
         self.set_fl_ar()
         local_log.info("chosen files =%s  %s",self.__files[self.__lang1],self.__files[self.__lang2 ])
         list(map(self.add_option, self.opts))
-    
+
     def set_fl_ar(self):
         """
         set the file array based on the selected languages
@@ -225,7 +225,7 @@ class LocalTerm(Gramplet):
         config.set("myopt.lang1",self.__lang1)
         config.set("myopt.lang2",self.__lang2)
 
-        local_log.info("lang1  nu = %s", self.__lang1)        
+        local_log.info("lang1  nu = %s", self.__lang1)
         if len(self.__fl_ar) > 2:
             errormessage = _("Max two files can be selecteda")
             ErrorDialog(_("Error:"), errormessage)
@@ -353,11 +353,11 @@ class LocalTerm(Gramplet):
         else:
             self.gui.WIDGET.set_search_column(1)
         local_log.info("--> Main kaldet")
-        local_log.info("files to load = %s", self.__fl_ar)  
+        local_log.info("files to load = %s", self.__fl_ar)
         self.filenbr = 0
 #        self.__files = []
         for flnm in self.__fl_ar:
-            flnm = os.path.join(os.path.dirname(__file__), flnm)
+            flnm = os.path.join(os.path.dirname(__file__), "data", flnm)
             if not os.path.exists(flnm):
                 flnm = os.path.join(
                     os.path.dirname(__file__), "default" + "_data_v1_0.txt"
