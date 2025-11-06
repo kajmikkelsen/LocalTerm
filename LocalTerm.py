@@ -40,6 +40,12 @@
 # 20251024
 # added function clean_translatable to remove _() from the translatable term
 # removed active change routine, this has nothing to do with the active person
+# 20251105
+# changed language selection to drop down boxes
+# added function to set the file array based on the selected languages
+# changed loading of files to use the file array
+# 20251106
+# Made column language2 invisble if only on language is selected
 # ----------------------------------------------------------------------------
 """
 Local term - a plugin for showing translatable terms
@@ -189,6 +195,8 @@ class LocalTerm(Gramplet):
         """
         self.__fl_ar = []
         self.__fl_ar.append(os.path.basename(self.__files[self.__lang1]))
+        self.__url_ap = (os.path.basename(self.__files[self.__lang1]) ).split("_")[0]
+        local_log.info("base for url = %s", self.__url_ap)
         if self.__lang2 != self.__lang1:
             self.__fl_ar.append(os.path.basename(self.__files[self.__lang2]))
 
@@ -332,6 +340,14 @@ class LocalTerm(Gramplet):
         self.model.clear()
         col = self.gui.WIDGET.get_column(2)
         col.set_visible(self.__show_anchor)
+        col = self.gui.WIDGET.get_column(3)
+        if self.__lang1 == self.__lang2:
+            col.set_visible(False)
+        else:
+            col.set_visible(True)
+
+#        col.set_visible(self.__lang1 == self.__lang2)
+        local_log.info("Languages = %s  %s", self.__lang1, self.__lang2)
         if self.__search_lang == 2:
             self.gui.WIDGET.set_search_column(3)
         else:
@@ -378,6 +394,8 @@ class LocalTerm(Gramplet):
         local_log.info("--> build gui")
         self.__show_anchor = config.get("myopt.show_anchor")
         self.__search_lang = config.get("myopt.search_lang")
+        self.__lang1 = config.get("myopt.lang1")
+        self.__lang2 = config.get("myopt.lang2")
         local_log.info(self.__show_anchor)
         tip = _("Double click row to follow link")
         self.set_tooltip(tip)
@@ -417,6 +435,14 @@ class LocalTerm(Gramplet):
         )
         column.set_sort_column_id(3)
         column.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
+        if self.__lang1 == self.__lang2:
+            column.set_visible(False)
+        else:
+            column.set_visible(True)
+
+#        column.set_visible((self.__lang1 == self.__lang2))
+        local_log.info("Languages = %s  %s", self.__lang1, self.__lang2)
+
         top.append_column(column)
 
         self.model.set_sort_column_id(0, Gtk.SortType.ASCENDING)

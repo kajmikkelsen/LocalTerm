@@ -8,24 +8,24 @@ term, translatable, anchor
 "Adresse", '_("Address")', address
 "administrativ inddeling", '_("administrative division")', administrative_division
 "Hjælper", '_("Aide")', aide
-"anglisering", '_("anglicization")', anglicisation
-"Foreningen", '_("Association")', association
+"anglifisering", '_("anglicization")', anglicisation
+"Forbindelse", '_("Association")', association
 "Forbindelser", '_("Associations")', association
-"Attributter", '_("Attribute")', attribute
-"Attribut", '_("Attributes")', attribute
+"Attribut", '_("Attribute")', attribute
+"Attributter", '_("Attributes")', attribute
 "Bograpporter", '_("Books Report")', books_report
 "Brud", '_("Bride")', bride
 "BSDDB", '_("BSDDB")', bsddb
 "Kategori", '_("Category")', category
 "Kategorier", '_("Categories")', category
-"Celebrant", '_("Celebrant")', celebrant
+"Officiant", '_("Celebrant")', celebrant
 "Kildehenvisning", '_("Citation")', citation
 "Kildehenvisninger", '_("Citations")', citation
 "Gejstlighed", '_("Clergy")', clergy
 "Udklipsholderen", '_("Clipboard")', clipboard
 "Genvejsmenu", '_("Context menu")', context_menu
 "Tilpasset Filter", '_("Custom Filter")', filter
-"tilpasset Types", '_("custom Types")', custom
+"tilpassede Typer", '_("custom Types")', custom
 "Dato", '_("Date")', date
 "DNA", '_("DNA")', dna
 "Dok", '_("Dock")', dock
@@ -33,7 +33,7 @@ term, translatable, anchor
 "DTD", '_("DTD")', dtd
 "Rediger familie", '_("Edit Family")', edit_family
 "Rediger person", '_("Edit Person")', edit_person
-"Tilfælde", '_("Event")', event
+"Begivenhed", '_("Event")', event
 "Begivenhedsrolle", '_("Event Role")', event_role
 "begivenhedstype", '_("event type")', event_type
 "Fallback begivenheder", '_("Fallback events")', fallback
@@ -42,7 +42,7 @@ term, translatable, anchor
 "Filformater", '_("File formats")', file_format
 "Filter", '_("Filter")', filter
 "GEDCOM", '_("GEDCOM")', gedcom
-"Fadder", '_("Godparent")', godparent
+"Gudfar/mor", '_("Godparent")', godparent
 "Gramplet", '_("Gramplet")', gramplet
 "Gramps", '_("Gramps")', gramps
 "Gramps til stationære computere", '_("Gramps for Desktops")', gramps
@@ -50,16 +50,16 @@ term, translatable, anchor
 "Grafisk brugergrænseflade", '_("Graphical User Interface")', graphical_user_interface
 "Brudgom", '_("Groom")', groom
 "GUI", '_("GUI")', graphical_user_interface
-"Hjemmeperson", '_("Home Person")', home_person
+"Proband", '_("Home Person")', home_person
 "Informant", '_("Informant")', informant
 "JSON", '_("JSON")', json
 "nøglebinding", '_("keybinding")', keybinding
 "matronym", '_("matronym")', matronymic
 "Medier", '_("Media")', media
 "Flet sammen", '_("Merge")', merge
-"Mode", '_("Mode")', viewmode
-"Navn Oprindelse", '_("Name Origin")', name_origin
-"Navigator", '_("Navigator")', navigator
+"Modus", '_("Mode")', viewmode
+"Navneoprindelse", '_("Name Origin")', name_origin
+"Navigatør", '_("Navigator")', navigator
 "Note", '_("Note")', note
 "Objekt ", '_("Object ")', object
 "Objekt Editor", '_("Object Editor")', object_editor
@@ -76,42 +76,42 @@ term, translatable, anchor
 "Primært objekt", '_("Primary Object")', primary_object
 "Primær rolle", '_("Primary role")', primary
 "Privat flag", '_("Private flag")', private
-"Privat tag ", '_("Private tag ")', private_tag
+"Privat mærkat ", '_("Private tag ")', private_tag
 "Offentligt flag", '_("Public flag")', public
-"Offentligt tag ", '_("Public tag ")', public_tag
+"Offentligt mærkat ", '_("Public tag ")', public_tag
 "Hurtig visning", '_("Quick View")', quickview
 "Reference", '_("Reference")', reference
-"Fanen Referencer", '_("References tab")', references_tab
+"Reference faneblad", '_("References tab")', references_tab
 "Regulære udtryk", '_("Regular Expressions")', regex
 "Genbestil", '_("Re-order")', reorder
 "Arkiver", '_("Repositories")', repository
 "Arkiv", '_("Repository")', repository
-"Slægtsrelation", '_("Role")', role
+"Rolle", '_("Role")', role
 "Roller", '_("Roles")', role
 "romanisering", '_("romanization")', romanization
-"Herske", '_("Rule")', rule
+"Regel", '_("Rule")', rule
 "Reglerne", '_("Rules")', rule
 "sekundært objekt", '_("secondary object")', secondary_object
-"Vælger kombinationsboks", '_("Selector combo box")', selector_combo_box
+"Kombinationsfelt udtrykælger", '_("Selector combo box")', selector_combo_box
 "Delte objekter﻿", '_("Shared objects")', sharing
 "Referenceinformation﻿", '_("Reference information")', reference information
 "Delt information", '_("Shared information")', shared_information
-"vælger", '_("selector")', selector
+"udvælger", '_("selector")', selector
 "Kilde", '_("Source")', source
 "Kilder", '_("Sources")', source
 "SQLite", '_("SQLite")', sqlite
 "Swatch", '_("Swatch")', swatch
 "Farveprøve", '_("Color Swatch")', color_swatch
-"Tag", '_("Tag")', tag
-"Etiketter", '_("Tags")', tag
+"Mærkat", '_("Tag")', tag
+"Mærkater", '_("Tags")', tag
 "Værktøjslinje", '_("Toolbar")', toolbar
-"Typografiske konventioner﻿", '_("Typographical conventions")', Typographical_conventions
+"Typografiske konventioner", '_("Typographical conventions")', Typographical_conventions
 "Ukendt", '_("Unknown")', unknown
 "Brugermappe", '_("User Directory")', user_directory
 "Vis", '_("View")', view
 "Vis kategorier", '_("View category")', view_category
-"Vis mode", '_("View mode")', viewmode
+"Vis modus", '_("View mode")', viewmode
 "Wiki", '_("Wiki")', wiki
-"Vidner", '_("Witness")', witness
+"Vidne", '_("Witness")', witness
 "XML", '_("XML")', xml
 
