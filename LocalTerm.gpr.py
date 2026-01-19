@@ -1,21 +1,37 @@
+from gramps.gui import plug
+from gramps.version import major_version, VERSION_TUPLE
+
+if VERSION_TUPLE < (5, 2, 0):
+    additional_args = {
+#        "status": UNSTABLE,
+    }
+else:
+    additional_args = {
+        "audience": EXPERT,
+        "status": EXPERIMENTAL,
+#        "maintainers": "Kaj Mikkelsen",
+#        "maintainers_email": "",
+    }
+
 register(
     GRAMPLET,
     id="LocalTerm Gramplet",
-    name=_("Dictionary"),
-    description=_("Localized index to Gramps Glossary terms"),
+    name=_("Localized Gramps Glossary Terminology"),
+    description=_("Localized index to Gramps Glossary terminology"),
     authors=["Kaj Mikkelsen"],
-    status=EXPERIMENTAL,
-    version = '0.1.2',
+    authors_email=["kmi@vgdata.dk"],
+    version = '0.1.3',
     fname="LocalTerm.py",
     height=20,
     detached_width=510,
     detached_height=480,
     expand=True,
     gramplet="LocalTerm",
-    gramplet_title=_("Dictionary for Gramps"),
-    gramps_target_version="5.2",
+    gramplet_title=_("Localized Glossary Index"),
+    gramps_target_version=major_version,
     help_url="https://github.com/kajmikkelsen/LocalTerm",
-#    help_url="Addon:Historical_Context",
+#    help_url="Addon:LocalTerm",
     navtypes=["Person", "Dashboard", "Note"],
     include_in_listing=True,
+    **additional_args,
 )
