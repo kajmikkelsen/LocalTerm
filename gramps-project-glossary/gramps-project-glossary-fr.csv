@@ -1,0 +1,166 @@
+location,source,target,id,fuzzy,context,translator_comments,developer_comments
+,EnglishExonym,French,,no,language,"Nom de la langue en anglais",Gramps_Glossary/en
+,endonym,Français,,no,language,"Nom de la langue dans la langue maternelle",Gramps_Glossary/fr
+,language code,fr,,no,language,"Code de la langue selon la norme ISO 639",https://hosted.weblate.org/projects/gramps-project/-/fr/
+,translators,Traducteurs,,yes,language,"Traducteur principal pour l'interface graphique",Portal:Translators#fr
+,translations,Traductions,,yes,language,"État de la traduction du wiki",User_manual_translations#fr
+,documentation,documentation,,yes,language,"Index des pages traduites du wiki",Category:Fr:Documentation
+,Tishrei,Tichri,,False,calendar,"Calendrier hébraïque : premier mois de l'année civile; Septième mois de l'année ecclésiastique",Hebrew_dates
+,Cheshvan,Heshvan,,False,calendar,"Calendrier hébraïque : deuxième mois de l’année civile ; huitième mois de l’année ecclésiastique",Hebrew_dates
+,Kislev,Kislev,,False,calendar,"Calendrier hébraïque : Troisième mois de l'année civile ; neuvième mois de l'année liturgique",Hebrew_dates
+,Tevet,Tévet,,False,calendar,"Calendrier hébraïque : Quatrième mois de l'année civile ; dixième mois de l'année liturgique",Hebrew_dates
+,Shevat,Chevat,,False,calendar,"Calendrier hébraïque : Cinquième mois de l'année civile ; onzième mois de l'année liturgique",Hebrew_dates
+,Adar,Adar,,False,calendar,"Calendrier hébraïque : Sixième mois de l'année civile ; douzième mois de l'année liturgique",Hebrew_dates
+,Nisan,Nissan,,False,calendar,"Calendrier hébraïque : Septième mois de l'année civile ; premier mois de l'année liturgique",Hebrew_dates
+,Iyar,Iyar,,False,calendar,"Calendrier hébraïque : Huitième mois de l'année civile ; deuxième mois de l'année liturgique",Hebrew_dates
+,Sivan,Sivan,,False,calendar,"Calendrier hébraïque : Neuvième mois de l'année civile ; troisième mois de l'année liturgique",Hebrew_dates
+,Tammuz,Tammouz,,False,calendar,"Calendrier hébraïque : Dixième mois de l'année civile ; quatrième mois de l'année liturgique",Hebrew_dates
+,Av,Av,,False,calendar,"Calendrier hébraïque : Onzième mois de l'année civile ; cinquième mois de l'année liturgique",Hebrew_dates
+,Elul,Eloul,,False,calendar,"Calendrier hébraïque : Douzième mois de l'année civile ; sixième mois de l'année liturgique",Hebrew_dates
+
+,Active Person,individu actif,,yes,terminology,"personne désignée comme centre de concentration momentané",Gramps_Glossary/fr#active_person
+,Add-on,greffon,,yes,terminology,"Extension tierce optionnelle installée via le gestionnaire d'extensions",Gramps_Glossary/fr#addon
+,Addon,greffon,,yes,terminology,"Extension tierce optionnelle installée via le gestionnaire d'extensions",Gramps_Glossary/fr#addon
+,Address,Adresse,,yes,terminology,"un lieu précis associé à une période donnée ",Gramps_Glossary/fr#address
+,administrative division,division administrative,,yes,terminology,"unité subdivisant une région géopolitique en couches conventionnelles",Gramps_Glossary/fr#administrative_division
+,Aide,Aide,,yes,terminology,"un terme désignant le rôle de l'événement comme celui d'assistant",Gramps_Glossary/fr#aide
+,ancestor,ascendant,,False,,,
+,Ancestry,Ascendance,,False,,,
+,anglicization,anglicisation,,yes,,"processus de transformation d'un nom étranger en sa variante anglaise",Gramps_Glossary/fr#anglicisation
+,Association,Association,,yes,terminology,"un rôle définissant explicitement la manière dont une personne se rapporte à une autre",Gramps_Glossary/fr#association
+,Associations,Associations,,yes,terminology,"rôles définissant les relations non biologiques et les caractéristiques partagées entre les personnes",Gramps_Glossary/fr#association
+,Attribute,Attribut,,yes,terminology,"un enregistrement personnalisé d'une caractéristique permanente",Gramps_Glossary/fr#attribute
+,Attributes,Attributs,,yes,terminology,"Catégories personnalisables pour les caractéristiques permanentes au-delà de l'ensemble prédéfini",Gramps_Glossary/fr#attribute
+,base relative media path,chemin des média relatif à la base,,False,,,
+,Books Report,Rapport sur les livres,,yes,terminology,"un recueil ordonné des rapports textuels et graphiques de grand-père dans un seul document",Gramps_Glossary/fr#books_report
+,border,bordure,,False,,"Suggested in Weblate: Frontière",
+,Bride,Mariée,,yes,,"un terme désignant le rôle de l'épouse dans le mariage",Gramps_Glossary/fr#bride
+,BSDDB,BSDDB,,yes,,"the Berkeley Software Distribution database: an alternative database engine",Gramps_Glossary/fr#bsddb
+,bug,erreur,,False,,,
+,bugs,erreurs,,False,,,
+,burial,Inhumation,,False,,,
+,call name,prénom usuel,,False,,,
+,Categories,Catégories,,yes,terminology,"Gramps organise chaque objet primaire en un ensemble de schémas descriptifs distincts.",Gramps_Glossary/fr#category
+,Category,Catégorie,,yes,terminology,"un schéma descriptif d'un objet principal de base de données",Gramps_Glossary/fr#category
+,Celebrant,Célébrant,,yes,,"un terme désignant un rôle comme la personne qui accomplit un rite",Gramps_Glossary/fr#celebrant
+,Citation,Citation,,yes,terminology,"informations permettant de localiser un contenu spécifique dans le matériel source",Gramps_Glossary/fr#citation
+,Citations,Citations,,yes,terminology,"un ensemble de références citant et localisant les sources appuyant les documents de recherche",Gramps_Glossary/fr#citation
+,Clergy,Clergé,,yes,terminology,"un terme désignant un rôle lors d'un événement religieux comme celui d'un officiant",Gramps_Glossary/fr#clergy
+,Clipboard,presse-papiers,,yes,terminology,"Système de raccourcis pour le partage d'objets secondaires, la navigation et la création de filtres personnalisés",Gramps_Glossary/fr#clipboard
+,Color Swatch,Échantillon de couleur,,yes,terminology,"",Gramps_Glossary/fr#color_swatch
+,Configure,Configure,,yes,terminology,"Paramètres configurables par l'utilisateur qui personnalisent le comportement du mode d'affichage local",Gramps_Glossary/fr#configure
+,Context menu,Menu contextuel,,yes,terminology,"Terme d'interface graphique : menu contextuel d'options appropriées à l'élément sur lequel on a cliqué avec le bouton droit",Gramps_Glossary/fr#context_menu
+,CSV,CSV,,yes,,"acronyme de Comma Separated Value, format d'échange de données en texte brut avec délimiteurs",Gramps_Glossary/fr#json
+,Custom Filter,Filtre personnalisé,,yes,terminology,"un système de règles permettant d'afficher uniquement les enregistrements correspondant à certains critères",Gramps_Glossary/fr#filter
+,custom Types,Types personnalisés,,yes,terminology,"classification définie par l'utilisateur ; par opposition aux classifications prédéfinies",Gramps_Glossary/fr#custom
+,Date,Date,,yes,terminology,"période de temps avec une qualité, une précision et des points de fin calendaires spécifiques",Gramps_Glossary/fr#date
+,debug,déboguer,,False,,,
+,Default,Par défaut,,False,,,
+,Default,Par défaut,,False,,,
+,Delimiter,Délimiteur,,False,,,
+,descendant,descendant,,False,,,
+,DNA,DNA,,yes,,"un acronyme pour acide désoxyribonucléique ; les éléments constitutifs de l'information génétique",Gramps_Glossary/fr#dna
+,Dock,Quai,,yes,terminology,"Terme d'interface graphique : ajouter un Gramplet à la vue du tableau de bord ou aux conteneurs de barres divisées",Gramps_Glossary/fr#dock
+,DTD,DTD,,yes,,"Acronyme de Document Type Definition (Définition de type de document) : format de document standardisé définissant la structure d’un fichier",Gramps_Glossary/fr#dtd
+,Edit Family,Modifier la famille,,yes,terminology,"réviser les données structurées décrivant le regroupement des relations de base des personnes étroitement liées",Gramps_Glossary/fr#edit_family
+,Edit Person,Modifier la personne,,yes,terminology,"réviser les données structurées décrivant un individu",Gramps_Glossary/fr#edit_person
+,Event,Événement,,yes,terminology,"données structurées concernant un événement",Gramps_Glossary/fr#event
+,Event Role,Rôle dans l'événement,,yes,terminology,"le rôle qu'une personne joue dans un événement",Gramps_Glossary/fr#event_role
+,Events,Évènements,,False,,,
+,event type,Rôle dans l'événement,,yes,terminology,"regroupement générique d'événements",Gramps_Glossary/fr#event_type
+,Fallback events,Événements de repli,,yes,terminology,"various happenings that are considered comparable to a missing vital statistic happening",Gramps_Glossary/fr#fallback
+,Family,Famille,,yes,terminology,"le regroupement relationnel de base de personnes très liées",Gramps_Glossary/fr#family
+,File Chooser,Sélecteur de fichiers,,yes,terminology,"",Gramps_Glossary/fr#file_chooser
+,File formats,Formats de fichiers,,yes,terminology,"structures standard pour le stockage de données dans un fichier informatique identifié par son extension de fichier",Gramps_Glossary/fr#file_format
+,Filter,Filtre,,yes,terminology,"",Gramps_Glossary/fr#filter
+,funeral,Enterrement,,False,,,
+,GEDCOM,GEDCOM,,yes,,"un acronyme pour le format d'échange de données standardisé de communication de données généalogiques",Gramps_Glossary/fr#gedcom
+,Godparent,Parrain/Marraine,,yes,,"un terme désignant le rôle de la personne lors du baptême comme celui d'un parent de substitution",Gramps_Glossary/fr#godparent
+,Gramplet,Gramplet,,yes,terminology,"a type of small embeddable Gramps plugin which extends the interface to dynamically interact with genealogy data",Gramps_Glossary/fr#gramplet
+,Gramps for Desktops,Gramps pour ordinateurs de bureau,,yes,terminology,"",Gramps_Glossary/fr#gramps
+,Gramps,Gramps,,yes,terminology,"",Gramps_Glossary/fr#gramps
+,Gramps Web for Servers,Gramps Web pour serveurs,,yes,terminology,"",Gramps_Glossary/fr#grampsweb
+,Gramps Web,Gramps Web pour serveurs,,yes,terminology,"",Gramps_Glossary/fr#grampsweb
+,Graphical User Interface,Interface utilisateur graphique,,yes,terminology,"Système visuel d'icônes, de boutons et de menus permettant une interaction logicielle par pointer-cliquer",Gramps_Glossary/fr#graphical_user_interface
+,Groom,Marié,,yes,,"Le terme Grooma désigne le rôle du mari dans le mariage.",Gramps_Glossary/fr#groom
+,GUI,GUI,,yes,terminology,"un acronyme pour l'interface utilisateur graphique d'une application",Gramps_Glossary/fr#graphical_user_interface
+,Home Person,Personne à la maison,,yes,terminology,"personne désignée comme centre de recherche permanent",Gramps_Glossary/fr#home_person
+,home,souche,,False,,,
+,ID,Identifiant,,False,,,
+,Informant,Informateur,,yes,terminology,"un terme permettant d'identifier le rôle de l'événement comme étant la source du signalement",Gramps_Glossary/fr#informant
+,JSON,JSON,,yes,,"un acronyme pour le format d'échange de données JavaScript Object Notation",Gramps_Glossary/fr#json
+,keybinding,raccourcis clavier,,yes,terminology,"",Gramps_Glossary/fr#keybinding
+,log,journal,,False,,,
+,matronym,matronym,,yes,,"",Gramps_Glossary/fr#matronymic
+,Media,médias,,yes,terminology,"",Gramps_Glossary/fr#media
+,Merge,Fusionner,,yes,terminology,"",Gramps_Glossary/fr#merge
+,Mode,Mode,,yes,terminology,"",Gramps_Glossary/fr#viewmode
+,Name Origin,Origine du nom,,yes,terminology,"",Gramps_Glossary/fr#name_origin
+,Navigator,Navigateur,,yes,terminology,"",Gramps_Glossary/fr#navigator
+,Note,Note,,yes,terminology,"",Gramps_Glossary/fr#note
+,Object Editor,Éditeur d'objets,,yes,terminology,"",Gramps_Glossary/fr#object_editor
+,Object,Objet,,yes,terminology,"Conteneur de base de données structurée pour un enregistrement généalogique complet (et non un objet de programmation)",Gramps_Glossary/fr#object
+,Object Reference Editors,Éditeurs de références d'objets,,yes,terminology,"",object_reference_editors
+,Officiator,Officier,,yes,terminology,"",Gramps_Glossary/fr#officiator
+,patronym,patronyme,,yes,terminology,"",Gramps_Glossary/fr#patronymic
+,"person, individual, people",individu(s),,False,,,
+,Person,Individu,,False,,"Un enregistrement de « personne » dans Gramps",
+,Person,Person,,yes,terminology,"",Gramps_Glossary/fr#person
+,Place,lieu,,yes,terminology,"",Gramps_Glossary/fr#place
+,places,lieux,,False,,,
+,Please...,Veuillez...,,False,,,
+,Plug-in,greffon,,yes,terminology,"module d'extension géré par le gestionnaire de modules complémentaires",Gramps_Glossary/fr#plugin
+,Plugin,greffon,,yes,terminology,"module d'extension géré par le gestionnaire de modules complémentaires",Gramps_Glossary/fr#plugin
+,POSIX,POSIX,,yes,,"",Gramps_Glossary/fr#posix
+,Preferences,Préférences,,yes,terminology,"Paramètres globaux configurables par l'utilisateur qui personnalisent en permanence le comportement de Gramps, y compris son apparence et ses fonctionnalités.",Gramps_Glossary/fr#preferences
+,Prerequisites,Prérequis,,yes,terminology,"",Gramps_Glossary/fr#prerequisites
+,Primary Object,Objet principal,,yes,terminology,"enregistrement de base de données de niveau supérieur pour les différentes catégories",Gramps_Glossary/fr#primary_object
+,Primary role,Rôle principal,,yes,terminology,"",Gramps_Glossary/fr#primary
+,Private flag,Pavillon privé,,yes,terminology,"",Gramps_Glossary/fr#private
+,Private tag,Étiquette privée,,yes,terminology,"",Gramps_Glossary/fr#private_tag
+,project,projet,,False,,"A project object within Gramps",
+,Public flag,Drapeau public,,yes,terminology,"",Gramps_Glossary/fr#public
+,Public tag,Balise publique,,yes,terminology,"",Gramps_Glossary/fr#public_tag
+,Quick View,Aperçu rapide,,yes,terminology,"",Gramps_Glossary/fr#quickview
+,Reference information,Informations de référence,,yes,terminology,"",Gramps_Glossary/fr#reference_information
+,Reference,Références,,yes,terminology,"",Gramps_Glossary/fr#reference
+,References tab,Onglet Références,,yes,terminology,"",Gramps_Glossary/fr#references_tab
+,REFN,REFN,,False,,"Une balise GEDCOM utilisée pour stocker un identifiant défini par l'utilisateur",
+,Regular Expressions,Expressions rationnelles,,yes,terminology,"RegEx: séquence de caractères définissant les modèles de recherche et de correspondance de texte",Gramps_Glossary/fr#regex
+,relation,lien,,False,"Suggested in Weblate: relation",
+,remove,enlever,,False,,"supprimer une référence",
+,Re-order,Réorganiser,,yes,terminology,"",Gramps_Glossary/fr#reorder
+,Repositories,Dépôts,,yes,terminology,"",Gramps_Glossary/fr#repository
+,Repository,Dépôt,,yes,terminology,"",Gramps_Glossary/fr#repository
+,Role,Rôle,,yes,terminology,"",Gramps_Glossary/fr#role
+,Roles,Rôles,,yes,terminology,"",Gramps_Glossary/fr#role
+,romanization,romanization,,yes,,"",Gramps_Glossary/fr#romanization
+,Rule,Règle,,yes,terminology,"",Gramps_Glossary/fr#rule
+,Rules,Règles,,yes,terminology,"",Gramps_Glossary/fr#rule
+,Secondary Object,Objet secondaire,,yes,terminology,"Enregistrement de base de données associé à divers objets principaux",Gramps_Glossary/fr#secondary_object
+,Selector combo box,Boîte de sélection,,yes,terminology,"",Gramps_Glossary/fr#selector_combo_box
+,selector,sélecteur d'objets,,yes,terminology,"",Gramps_Glossary/fr#selector
+,Shared information,Informations partagées,,yes,terminology,"",Gramps_Glossary/fr#shared_information
+,Shared object,Objet partagé,,yes,terminology,"un objet secondaire partagé entre plusieurs objets principaux avec des détails de pièce jointe personnalisables",Gramps_Glossary/fr#sharing
+,Source,Source,,yes,terminology,"",Gramps_Glossary/fr#source
+,Sources,Sources,,yes,terminology,"",Gramps_Glossary/fr#source
+,SQLite,SQLite,,yes,terminology,"",Gramps_Glossary/fr#sqlite
+,Stamen,Stamen,,False,,,
+,substring,sous-chaîne,,False,,,
+,Swatch,Swatch,,yes,terminology,"",Gramps_Glossary/fr#swatch
+,Tags,Étiquettes,,yes,terminology,"Des titres personnalisés et un code couleur appliqués aux objets",Gramps_Glossary/fr#tag
+,Tag,Tag,,yes,terminology,"un titre personnalisé et un code couleur appliqués à un objet",Gramps_Glossary/fr#tag
+,Toolbar,barre d'outils,,yes,terminology,"Terme d'interface graphique : ruban de raccourcis permettant de déclencher une tâche ou un mode de fonctionnement de la vue",Gramps_Glossary/fr#toolbar
+,Try to find,Essayer de trouver,,False,,,
+,Typographical conventions,Conventions typographiques,,yes,,"formatage habituel impliquant une signification spéciale (et peut-être particulière)",Gramps_Glossary/fr#typographical_conventions
+,Undock,Débarquer,,yes,terminology,"Terme d'interface graphique : détacher un Gramplet de la vue du tableau de bord ou des conteneurs à barres divisées",Gramps_Glossary/fr#dock
+,Unknown,Inconnu,,yes,terminology,"Le terme indiquant le rôle joué dans un événement n'a pas été identifié.",Gramps_Glossary/fr#unknown
+,User Directory,Annuaire des utilisateurs,,yes,terminology,"alias du chemin d'accès à un dossier contenant les personnalisations et les données des applications",Gramps_Glossary/fr#user_directory
+,View category,Afficher la catégorie,,yes,terminology,"Ensemble de modes d'affichage présentant différents aspects d'informations structurées similaires",Gramps_Glossary/fr#view_category
+,View mode,Mode d'affichage,,yes,terminology,"présentations d'affichage affichant les informations structurées d'une catégorie Vue de manière prévisible",Gramps_Glossary/fr#viewmode
+,View,Voir,,yes,terminology,"Le mode d'affichage actuellement actif dans une catégorie avec des données filtrées. Incluant les commandes supplémentaires et les affichages de type gramplet.",Gramps_Glossary/fr#view
+,Whether,Inclure ou non,,False,,,
+,Wiki,Wiki,,yes,terminology,"un site web géré de manière collaborative",Gramps_Glossary/fr#wiki
+,Witness,Témoin,,yes,,"un terme désignant le rôle de l'événement comme celui d'un observateur",Gramps_Glossary/fr#witness
+,XML,XML,,yes,terminology,"un acronyme pour Extensible Markup Language : un format de fichier structuré qui permet des balises personnalisées",Gramps_Glossary/fr#xml
+
