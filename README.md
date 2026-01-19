@@ -1,6 +1,6 @@
-# "Dictionary for Gramps" Gramplet
+# "LocalTerm" Gramplet
 a Localized index to Gramps Glossary terms
 
-<img width="754" height="547" alt="image" src="https://github.com/user-attachments/assets/6b5f7b2a-d738-4a4c-92eb-36d37cfd2282" />
+<img width="788" height="434" alt="image" src="https://github.com/user-attachments/assets/0cbeff0d-ba53-4b65-b7cd-34ec1584a27e" />
 
-<img width="1026" height="581" alt="image" src="https://github.com/user-attachments/assets/9e7a86b3-9e97-4a9f-841b-62d693f74e23" />
+<img width="695" height="535" alt="image" src="https://github.com/user-attachments/assets/2f32e86f-51a8-4bfe-bafb-78a1908591b9" />
