@@ -1,0 +1,139 @@
+location,source,target,id,fuzzy,context,translator_comments,developer_comments
+,EnglishExonym,Danish,,no,language,"Sprognavn på engelsk",https://gramps-project.org/wiki/index.php/Gramps_Glossary/da
+,endonym,Dansk,,no,language,"Sprognavn på modersmål",https://gramps-project.org/wiki/index.php/Gramps_Glossary/da
+,language code,da,,no,language,"Sprogkode i ISO 639-standarden",https://hosted.weblate.org/projects/gramps-project/-/da/
+,translators,Oversættere,,yes,language,"Ledende oversætter for GUI",https://gramps-project.org/wiki/index.php/Portal:Translators#da
+,translations,Oversættelser,,yes,language,"Status for wiki-oversættelse",https://gramps-project.org/wiki/index.php/User_manual_translations#da
+,documentation,Oversættelser,,yes,language,"Oversat wiki-sideindeks",https://gramps-project.org/wiki/index.php/Category:Da:Documentation
+,Active Person,Aktiv person,,yes,terminology,"person udpeget som det øjeblikkelige fokuspunkt",Gramps_Glossary/da#active_person
+,Add-on,Tilføjelse,,yes,terminology,"valgfrit tredjepartsudvidelsesplugin installeret via Addon Manager",Gramps_Glossary/da#addon
+,Addon,Tilføjelse,,yes,terminology,"valgfrit tredjepartsudvidelsesplugin installeret via Addon Manager",Gramps_Glossary/da#addon
+,Address,Adresse,,yes,terminology,"en bestemt placering med en tilhørende tidsramme",Gramps_Glossary/da#address
+,administrative division,administrativ inddeling,,yes,terminology,"enhed, der opdeler en geopolitisk region i konventionelle lag",Gramps_Glossary/da#administrative_division
+,Aide,Hjælper,,yes,,"et udtryk til at identificere begivenhedsrollen som værende en assistent",Gramps_Glossary/da#aide
+,Ancestry,Aner,,False,,,
+,anglicization,anglisering,,yes,,"proces med at omdanne et udenlandsk navn til dets engelske variant",Gramps_Glossary/da#anglicisation
+,Association,Forening,,yes,terminology,"en rolle, der eksplicit definerer, hvordan en person forholder sig til en anden",Gramps_Glossary/da#association
+,Associations,Foreningen,,yes,terminology,"roller, der definerer ikke-biologiske relationer og delte karakteristika mellem personer",Gramps_Glossary/da#association
+,Attribute,Attribut,,yes,terminology,"en brugerdefineret registrering af et permanent karakteristika",Gramps_Glossary/da#attribute
+,Attributes,Attributter,,yes,terminology,"Tilpassede kategorier for permanente karakteristika ud over det foruddefinerede sæt",Gramps_Glossary/da#attribute
+,base relative media path,udgangspunkt for sti til medier,,False,,,
+,Books Report,Bøgerrapport,,yes,terminology,"en ordnet samling af Gramps tekst- og grafiske rapporter i et enkelt dokument",Gramps_Glossary/da#books_report
+,border,grænse,,False,,,
+,Bride,Brud,,yes,,"et udtryk til at identificere ægteskabsrollen som at være hustru",Gramps_Glossary/da#bride
+,BSDDB,BSDDB,,yes,,"Berkeley Software Distribution-databasen: en alternativ databasemotor",Gramps_Glossary/da#bsddb
+,bug,fejl,,False,,,
+,bugs,fejl,,False,,,
+,burial,begravelse,,False,,,
+,Categories,Kategorier,,yes,terminology,"Gramps organiserer hvert primært objekt i et sæt af tydeligt forskellige beskrivende skemaer",Gramps_Glossary/da#category
+,Category,Kategori,,yes,terminology,"et beskrivende skema for et primært databaseobjekt",Gramps_Glossary/da#category
+,Celebrant,Virker,,yes,,"et udtryk til at identificere en rolle som den person, der udfører en ritual",Gramps_Glossary/da#celebrant
+,Citation,Citat,,yes,terminology,"information, der gør det muligt at finde specifikt indhold i kildemateriale",Gramps_Glossary/da#citation
+,Citations,Citater,,yes,terminology,"et sæt referencer, der krediterer og lokaliserer kilder, der understøtter forskningsoptegnelser",Gramps_Glossary/da#citation
+,Clergy,Præster,,yes,terminology,"et udtryk til at identificere en religiøs begivenheds rolle som officiant",Gramps_Glossary/da#clergy
+,Clipboard,Udklipsholderen,,yes,terminology,"genvejssystem til deling af sekundære objekter, navigation og til oprettelse af brugerdefinerede filtre",Gramps_Glossary/da#clipboard
+,Color Swatch,Farveprøve,,yes,terminology,"",Gramps_Glossary/da#color_swatch
+,Configure,Konfigurer,,yes,terminology,"brugerkonfigurerbare indstillinger, der tilpasser den lokale visningstilstands funktionsmåde",Gramps_Glossary/da#configure
+,Context menu,Kontekstmenu,,yes,terminology,"GUI-term: pop op-menu med indstillinger, der er relevante for det højreklikkede element",Gramps_Glossary/da#context_menu
+,CSV,CSV,,yes,,"et akronym for Comma Separated Value-dataudvekslingsformatet i almindelig tekst med afgrænsere",Gramps_Glossary/da#json
+,Custom Filter,Brugerdefineret filter,,yes,terminology,"et regelsystem til kun at vise de poster, der opfylder bestemte kriterier",Gramps_Glossary/da#filter
+,custom Types,Brugerdefinerede typer,,yes,terminology,"brugerdefineret klassificering; i modsætning til klassificeringer, der var foruddefinerede",Gramps_Glossary/da#custom
+,Data,Data,,False,,,
+,Date,Dato,,yes,terminology,"tidsperiode med specifikke kvalitets-, præcisions- og kalenderslutpunkter",Gramps_Glossary/da#date
+,debug,fejlfinding,,False,,,
+,Default,Standard,,False,,,
+,Delimiter,Afgrænser,,False,,,
+,DNA,DNA,,yes,,"et akronym for DeoxyriboNucleic Acid; byggestenene i genetisk information",Gramps_Glossary/da#dna
+,Dock,Dock,,yes,terminology,"GUI-term: tilføj en Gramplet til Dashboard-visningen eller splitbar-containere",Gramps_Glossary/da#dock
+,DTD,DTD,,yes,,"et akronym for Document Type Definition: et standardiseret dokumentformat, der definerer strukturen af ​​en fil",Gramps_Glossary/da#dtd
+,Edit Family,Rediger familie,,yes,terminology,"revider de strukturerede data, der beskriver den grundlæggende relationsgruppering af tæt sammentømrede personer",Gramps_Glossary/da#edit_family
+,Edit Person,Rediger person,,yes,terminology,"revider de strukturerede data, der beskriver et individ",Gramps_Glossary/da#edit_person
+,Event,Begivenhed,,yes,terminology,"strukturerede data om en hændelse",Gramps_Glossary/da#event
+,Event Role,Begivenhedsrolle,,yes,terminology,"den rolle, en person spiller i en hændelse",Gramps_Glossary/da#event_role
+,Events,Begivenheder,,False,,,
+,event type,begivenhedstype,,yes,terminology,"generisk gruppering af hændelser",Gramps_Glossary/da#event_type
+,Fallback events,Alternativbegivenheder,,yes,terminology,"forskellige hændelser, der anses for at være sammenlignelige med en manglende vital statistik-hændelse",Gramps_Glossary/da#fallback
+,Family,Familie,,yes,terminology,"",Gramps_Glossary/da#family
+,File Chooser,Filvælger,,yes,terminology,"",Gramps_Glossary/da#file_chooser
+,File formats,Filformater,,yes,terminology,"Standardstrukturer til lagring af data i en computerfil identificeret ved dens filtypenavn",Gramps_Glossary/da#file_format
+,Filter,Filter,,yes,terminology,"",Gramps_Glossary/da#filter
+,funeral,begravelse,,False,,,
+,GEDCOM,GEDCOM,,yes,,"an acronym for the Genealogical Data Communication standardized data interchange format",Gramps_Glossary/da#gedcom
+,Godparent,Gudforælder,,yes,,"et akronym for Genealogical Data Communication standardiseret dataudvekslingsformat",Gramps_Glossary/da#godparent
+,Gramplet,Gramplet,,yes,terminology,"en type lille, integreret Gramps-plugin, der udvider grænsefladen til dynamisk at interagere med slægtsdata",Gramps_Glossary/da#gramplet
+,Gramps for Desktops,Gramps til stationære computere,,yes,terminology,"",Gramps_Glossary/da#gramps
+,Gramps,Gramps,,yes,terminology,"",Gramps_Glossary/da#gramps
+,Gramps Web for Servers,Gramps Web til servere,,yes,terminology,"",Gramps_Glossary/da#grampsweb
+,Graphical User Interface,Grafisk brugergrænseflade,,yes,terminology,"Visuelt system af ikoner, knapper og menuer, der muliggør peg-og-klik-interaktion med software",Gramps_Glossary/da#graphical_user_interface
+,Groom,Brudgom,,yes,,"et udtryk til at identificere ægteskabsrollen som at være ægtemand",Gramps_Glossary/da#groom
+,GUI,GUI,,yes,terminology,"et akronym for en apps Grafisk brugergrænseflade",Gramps_Glossary/da#graphical_user_interface
+,Home Person,Hjemmeperson,,yes,terminology,"person udpeget som det vedvarende forskningscenter",Gramps_Glossary/da#home_person
+,Informant,Informant,,yes,terminology,"et udtryk til at identificere hændelsesrollen som rapporteringskilde",Gramps_Glossary/da#informant
+,JSON,JSON,,yes,,"et akronym for JavaScript Object Notation dataudvekslingsformat",Gramps_Glossary/da#json
+,keybinding,Nøglebinding,,yes,terminology,"",Gramps_Glossary/da#keybinding
+,matronym,matronym,,yes,,"",Gramps_Glossary/da#matronymic
+,Media,Medier,,yes,terminology,"",Gramps_Glossary/da#media
+,Merge,Flet sammen,,yes,terminology,"",Gramps_Glossary/da#merge
+,Mode,Tilstand,,yes,terminology,"",Gramps_Glossary/da#viewmode
+,Name Origin,Navn Oprindelse,,yes,terminology,"",name_origin
+,Navigator,Navigator,,yes,terminology,"",navigator
+,Note,Note,,yes,terminology,"",note
+,Object Editor,Objekteditor,,yes,terminology,"",Gramps_Glossary/da#object_editor
+,Object,Objekt,,yes,terminology,"struktureret databasebeholder til én fuld genealogisk optegnelse (ikke et programmeringsobjekt)",Gramps_Glossary/da#object
+,Object Reference Editors,Objektreference Redaktører,,yes,terminology,"",object_reference_editors
+,Officiator,Felder,,yes,terminology,"",Gramps_Glossary/da#officiator
+,patronym,patronym,,yes,terminology,"",Gramps_Glossary/da#patronymic
+,Person,Person,,yes,terminology,"En individuel registrering hos Gramps",Gramps_Glossary/da#person
+,Place,Sted,,yes,terminology,"",Gramps_Glossary/da#place
+,Plug-in,udvidelsesmoduler,,yes,terminology,"udvidelsesmodul administreret med Add-on Manager",Gramps_Glossary/da#plugin
+,Plugin,udvidelsesmoduler,,yes,terminology,"udvidelsesmodul administreret med Add-on Manager",Gramps_Glossary/da#plugin
+,POSIX,POSIX,,yes,,"",Gramps_Glossary/da#posix
+,Preferences,Præferencer,,yes,terminology,"globale brugerkonfigurerbare indstillinger, der permanent tilpasser Gramps' adfærd, herunder udseende og funktionalitet",Gramps_Glossary/da#preferences
+,Prerequisites,Forudsætninger,,yes,terminology,"",Gramps_Glossary/da#prerequisites
+,Primary Object,Primært objekt,,yes,terminology,"databasepost på øverste niveau for de forskellige kategorier",Gramps_Glossary/da#primary_object
+,Primary role,Primær rolle,,yes,terminology,"",Gramps_Glossary/da#primary
+,Private flag,Privat flag,,yes,terminology,"",Gramps_Glossary/da#private
+,Private tag,Privat tag,,yes,terminology,"",Gramps_Glossary/da#private_tag
+,project,projekt,,False,A project object within Gramps,,
+,Public flag,Offentligt flag,,yes,terminology,"",Gramps_Glossary/da#public
+,Public tag,Offentligt tag,,yes,terminology,"",Gramps_Glossary/da#public_tag
+,Quick View,Hurtig visning,,yes,terminology,"",Gramps_Glossary/da#quickview
+,Reference information,Referenceoplysninger,,yes,terminology,"",Gramps_Glossary/da#reference_information
+,Reference,Reference,,yes,terminology,"",Gramps_Glossary/da#reference
+,References tab,Fanen Referencer,,yes,terminology,"",Gramps_Glossary/da#references_tab
+,REFN,REFN,,False,,,A GEDCOM tag used to store a user-defined identifier.
+,Regular Expressions,Regulære udtryk,,yes,terminology,"",Gramps_Glossary/da#regex
+,relation,forhold,,False,,,
+,Re-order,Omarranger,,yes,terminology,"",Gramps_Glossary/da#reorder
+,Repositories,Arkiver,,yes,terminology,"",Gramps_Glossary/da#repository
+,Repository,Arkiv,,yes,terminology,"",Gramps_Glossary/da#repository
+,Role,Rolle,,yes,terminology,"",Gramps_Glossary/da#role
+,Roles,Roller,,yes,terminology,"",Gramps_Glossary/da#role
+,romanization,romanisering,,yes,,"",Gramps_Glossary/da#romanization
+,Rule,Regel,,yes,terminology,"",Gramps_Glossary/da#rule
+,Rules,Regler,,yes,terminology,"",Gramps_Glossary/da#rule
+,secondary object,sekundært objekt,,yes,terminology,"understøttende databasepost knyttet til forskellige primære objekter",Gramps_Glossary/da#secondary_object
+,Selector combo box,Komboboks til valg,,yes,terminology,"",Gramps_Glossary/da#selector_combo_box
+,selector,vælger,,yes,terminology,"",Gramps_Glossary/da#selector
+,Shared information,Delt information,,yes,terminology,"",Gramps_Glossary/da#shared_information
+,Shared object,Delt objekt,,yes,terminology,"ét sekundært objekt, der deles på tværs af flere primære objekter med brugerdefinerede vedhæftede oplysninger",Gramps_Glossary/da#sharing
+,Source,Kilde,,yes,terminology,"",Gramps_Glossary/da#source
+,Sources,Kilder,,yes,terminology,"",Gramps_Glossary/da#source
+,SQLite,SQLite,,yes,terminology,"",Gramps_Glossary/da#sqlite
+,substring,delstreng,,False,,,
+,Swatch,Farveprøve,,yes,terminology,"",Gramps_Glossary/da#swatch
+,Tags,Mærkat,,yes,terminology,"brugerdefinerede titler og farvekodning anvendt på objekter",Gramps_Glossary/da#tag
+,Tag,Tag,,yes,terminology,"en brugerdefineret titel og farvekodning anvendt på et objekt",Gramps_Glossary/da#tag
+,Toolbar,Værktøjslinje,,yes,terminology,"GUI-term: bånd med knapgenveje til at udløse en visningsopgave eller driftstilstand",Gramps_Glossary/da#toolbar
+,Try to find,Forsøg på at finde,,False,,,
+,Typographical conventions,Typografiske konventioner﻿,,yes,,"sædvanlig formatering, der antyder en særlig (og muligvis ejendommelig) betydning",Gramps_Glossary/da#typographical_conventions
+,Undock,Fjern docking,,yes,terminology,"GUI-term: frigør en Gramplet fra Dashboard-visningen eller splitbar-containere",Gramps_Glossary/da#dock
+,Unknown,Ukendt,,yes,terminology,"et udtryk, der angiver den rolle, der spilles i en begivenhed, er ikke identificeret",Gramps_Glossary/da#unknown
+,User Directory,Brugermappe,,yes,terminology,"Alias ​​for stien til en filmappeplacering, der lagrer tilpasninger og data til apps",Gramps_Glossary/da#user_directory
+,View category,Vis kategori,,yes,terminology,"en samling af visningstilstande, der præsenterer forskellige aspekter af lignende struktureret information",Gramps_Glossary/da#view_category
+,View mode,Visningstilstand,,yes,terminology,"Vis layouts, der præsenterer en visningskategoris strukturerede oplysninger på en forudsigelig måde",Gramps_Glossary/da#viewmode
+,View,Vis,,yes,terminology,"den aktuelt aktive visningstilstand i en kategori med filtrerede data. Inklusive supplerende kontroller og gramplet-visninger",Gramps_Glossary/da#view
+,Wiki,Wiki,,yes,terminology,"en fælles vedligeholdt hjemmeside",Gramps_Glossary/da#wiki
+,Witness,Vidne,,yes,,"et udtryk til at identificere begivenhedsrollen som observatør",Gramps_Glossary/da#witness
+,XML,XML,,yes,terminology,"et akronym for Extensible Markup Language: et struktureret filformat, der tillader brugerdefinerede tags",Gramps_Glossary/da#xml
+
