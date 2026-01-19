@@ -1,16 +1,28 @@
 location,source,target,id,fuzzy,context,translator_comments,developer_comments
-,EnglishExonym,English,,no,language,"language name in english",https://gramps-project.org/wiki/index.php/Gramps_Glossary/en
-,endonym,English,,no,language,"language name in native tongue",https://gramps-project.org/wiki/index.php/Gramps_Glossary/en
+,EnglishExonym,English,,no,language,"language name in english",Gramps_Glossary/en
+,endonym,English,,no,language,"language name in native tongue",Gramps_Glossary/en
 ,language code,en,,no,language,"language code in ISO 639 standard",https://hosted.weblate.org/projects/gramps-project/-/en/
-,translators,translators,,yes,language,"lead translator for GUI",https://gramps-project.org/wiki/index.php/Portal:Translators#en
-,translations,translations,,yes,language,"status of wiki translation",https://gramps-project.org/wiki/index.php/User_manual_translations#en
-,documentation,documentation,,yes,language,"translated wiki page index",https://gramps-project.org/wiki/index.php/Category:En:Documentation
+,translators,translators,,yes,language,"lead translator for GUI",Portal:Translators#en
+,translations,translations,,yes,language,"status of wiki translation",User_manual_translations#en
+,documentation,documentation,,yes,language,"translated wiki page index",Category:En:Documentation
+,Tishrei,Tishrei,,False,calendar,"Hebrew Calendar: first month of the civil year; seventh month of the ecclesiastical year",Hebrew_dates
+,Cheshvan,Cheshvan,,False,calendar,"Hebrew Calendar: second month of the civil year; eighth month of the ecclesiastical year",Hebrew_dates
+,Kislev,Kislev,,False,calendar,"Hebrew Calendar: third month of the civil year; ninth month of the ecclesiastical year",Hebrew_dates
+,Tevet,Tevet,,False,calendar,"Hebrew Calendar: fourth month of the civil year; tenth month of the ecclesiastical year",Hebrew_dates
+,Shevat,Shevat,,False,calendar,"Hebrew Calendar: fifth month of the civil year; eleventh month of the ecclesiastical year",Hebrew_dates
+,Adar,Adar,,False,calendar,"Hebrew Calendar: sixth month of the civil year; twelfth month of the ecclesiastical year",Hebrew_dates
+,Nisan,Nisan,,False,calendar,"Hebrew Calendar: seventh month of the civil year; first month of the ecclesiastical year",Hebrew_dates
+,Iyar,Iyar,,False,calendar,"Hebrew Calendar: eighth month of the civil year; second month of the ecclesiastical year",Hebrew_dates
+,Sivan,Sivan,,False,calendar,"Hebrew Calendar: ninth month of the civil year; third month of the ecclesiastical year",Hebrew_dates
+,Tammuz,Tammuz,,False,calendar,"Hebrew Calendar: tenth month of the civil year; fourth month of the ecclesiastical year",Hebrew_dates
+,Av,Av,,False,calendar,"Hebrew Calendar: eleventh month of the civil year; fifth month of the ecclesiastical year",Hebrew_dates
+,Elul,Elul,,False,calendar,"Hebrew Calendar: twelfth month of the civil year; sixth month of the ecclesiastical year",Hebrew_dates
 ,Active Person,Active Person,,yes,terminology,"person designated as the momentary center of focus",Gramps_Glossary/en#active_person
 ,Addon,Addon,,yes,terminology,"optional third-party expansion plugin installed via the Addon Manager",Gramps_Glossary/en#addon
 ,Add-on,Add-on,,yes,terminology,"optional third-party expansion plugin installed via the Addon Manager",Gramps_Glossary/en#addon
 ,Address,Address,,yes,terminology,"a particular location with an associated time frame",Gramps_Glossary/en#address
 ,administrative division,administrative division,,yes,terminology,"unit subdividing a geopolitical region into conventional layers",Gramps_Glossary/en#administrative_division
-,Aide,Aide,,yes,,"a term to identify the Event Role as being an assistant",Gramps_Glossary/en#aide
+,Aide,Aide,,yes,terminology,"a term to identify the Event Role as being an assistant",Gramps_Glossary/en#aide
 ,anglicization,anglicization,,yes,,"process of making a foreign name into its English variant",Gramps_Glossary/en#anglicisation
 ,Association,Association,,yes,terminology,"a role explicitly defining how one person relates to another",Gramps_Glossary/en#association
 ,Associations,Associations,,yes,terminology,"roles defining non-biological relationships and shared characteristics among persons",Gramps_Glossary/en#association
@@ -42,7 +54,7 @@ location,source,target,id,fuzzy,context,translator_comments,developer_comments
 ,Event Role,Event Role,,yes,terminology,"the part a person plays in a happening",Gramps_Glossary/en#event_role
 ,event type,event type,,yes,terminology,"generic grouping of happenings",Gramps_Glossary/en#event_type
 ,Fallback events,Fallback events,,yes,terminology,"various happenings that are considered comparable to a missing vital statistic happening",Gramps_Glossary/en#fallback
-,Family,Family,,yes,terminology,"",Gramps_Glossary/en#family
+,Family,Family,,yes,terminology,"the basic relationship grouping of tightly knit persons",Gramps_Glossary/en#family
 ,File Chooser,File Chooser,,yes,terminology,"",Gramps_Glossary/en#file_chooser
 ,File formats,File formats,,yes,terminology,"standard structures for storing data in a computer file identified by its file extension",Gramps_Glossary/en#file_format
 ,Filter,Filter,,yes,terminology,"",Gramps_Glossary/en#filter
@@ -51,6 +63,7 @@ location,source,target,id,fuzzy,context,translator_comments,developer_comments
 ,Gramplet,Gramplet,,yes,terminology,"a type of small embeddable Gramps plugin which extends the interface to dynamically interact with genealogy data",Gramps_Glossary/en#gramplet
 ,Gramps,Gramps,,yes,terminology,"",Gramps_Glossary/en#gramps
 ,Gramps for Desktops,Gramps for Desktops,,yes,terminology,"",Gramps_Glossary/en#gramps
+,Gramps Web,Gramps Web for Servers,,yes,terminology,"",Gramps_Glossary/en#grampsweb
 ,Gramps Web for Servers,Gramps Web for Servers,,yes,terminology,"",Gramps_Glossary/en#grampsweb
 ,Graphical User Interface,Graphical User Interface,,yes,terminology,"Visual system of icons, buttons, and menus enabling point-and-click software interaction",Gramps_Glossary/en#graphical_user_interface
 ,Groom,Groom,,yes,,"a term to identify the Marriage Role as being a husband",Gramps_Glossary/en#groom
@@ -87,7 +100,7 @@ location,source,target,id,fuzzy,context,translator_comments,developer_comments
 ,Quick View,Quick View,,yes,terminology,"",Gramps_Glossary/en#quickview
 ,Reference,Reference,,yes,terminology,"",Gramps_Glossary/en#reference
 ,References tab,References tab,,yes,terminology,"",Gramps_Glossary/en#references_tab
-,Regular Expressions,Regular Expressions,,yes,terminology,"",Gramps_Glossary/en#regex
+,Regular Expressions,Regular Expressions,,yes,terminology,"RegEx: Sequence of characters defining text search and match patterns",Gramps_Glossary/en#regex
 ,Re-order,Re-order,,yes,terminology,"",Gramps_Glossary/en#reorder
 ,Repositories,Repositories,,yes,terminology,"",Gramps_Glossary/en#repository
 ,Repository,Repository,,yes,terminology,"",Gramps_Glossary/en#repository
@@ -96,12 +109,12 @@ location,source,target,id,fuzzy,context,translator_comments,developer_comments
 ,romanization,romanization,,yes,,"",Gramps_Glossary/en#romanization
 ,Rule,Rule,,yes,terminology,"",Gramps_Glossary/en#rule
 ,Rules,Rules,,yes,terminology,"",Gramps_Glossary/en#rule
-,secondary object,secondary object,,yes,terminology,"supporting database record attached to various primary objects",Gramps_Glossary/en#secondary_object
+,Secondary Object,Secondary Object,,yes,terminology,"supporting database record attached to various primary objects",Gramps_Glossary/en#secondary_object
 ,Selector combo box,Selector combo box,,yes,terminology,"",Gramps_Glossary/en#selector_combo_box
 ,Shared object,Shared object,,yes,terminology,"one secondary object shared across multiple primary objects with customizable attachment details",Gramps_Glossary/en#sharing
 ,Reference information,Reference information,,yes,terminology,"",Gramps_Glossary/en#reference_information
 ,Shared information,Shared information,,yes,terminology,"",Gramps_Glossary/en#shared_information
-,selector,selector,,yes,terminology,"",Gramps_Glossary/en#selector
+,selector,object selector,,yes,terminology,"",Gramps_Glossary/en#selector
 ,Source,Source,,yes,terminology,"",Gramps_Glossary/en#source
 ,Sources,Sources,,yes,terminology,"",Gramps_Glossary/en#source
 ,SQLite,SQLite,,yes,terminology,"",Gramps_Glossary/en#sqlite
