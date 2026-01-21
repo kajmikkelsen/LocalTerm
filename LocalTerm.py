@@ -57,6 +57,10 @@
 #   - Config schema versioning (alpha)
 #   - Flush-to-defaults on schema mismatch
 #   - Removed plugin-version introspection (unstable API)
+# 2026-01-20
+#   - add context menu:
+#   -   clipboarding row data
+#   -   open the Weblate CSV externally
 #
 # ----------------------------------------------------------------------
 
@@ -67,7 +71,7 @@ import logging
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk, Gio
 
 from gramps.gen.plug import Gramplet
 from gramps.gen.const import GRAMPS_LOCALE as glocale
@@ -394,6 +398,26 @@ class LocalTerm(Gramplet):
         view = Gtk.TreeView(self.model)
         view.connect("row-activated", self.act)
 
+        # Save reference for use from handlers
+        self.treeview = view
+
+        # Create popup menu for rows
+        self.row_menu = Gtk.Menu()
+
+        mi_copy = Gtk.MenuItem(label=_("Copy row to clipboard"))
+        mi_copy.connect("activate", self.copy_selected_row)
+        self.row_menu.append(mi_copy)
+
+        mi_open_csv = Gtk.MenuItem(label=_("Open source CSV"))
+        mi_open_csv.connect("activate", self.open_source_csv)
+        self.row_menu.append(mi_open_csv)
+
+        self.row_menu.show_all()
+
+        # Connect right-click handler
+        view.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        view.connect("button-press-event", self.on_tree_button_press)
+
         renderer = Gtk.CellRendererText()
 
         view.append_column(
@@ -414,3 +438,122 @@ class LocalTerm(Gramplet):
 
         self.set_tooltip(_("Double click row to open glossary entry"))
         return view
+
+
+
+    def on_tree_button_press(self, treeview, event):
+        """
+        Handle button-press-event to show a context menu on right-click for a row.
+        """
+        # Right-click (button 3) only
+        if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
+            # Get path at click position
+            result = treeview.get_path_at_pos(int(event.x), int(event.y))
+            if result is None:
+                return False
+            path, col, cell_x, cell_y = result
+            # Select the clicked row
+            sel = treeview.get_selection()
+            sel.select_path(path)
+            # Popup the menu anchored to the event
+            try:
+                self.row_menu.popup(None, None, None, None, event.button, event.time)
+            except TypeError:
+                # Some GTK bindings differ; fallback to popup_at_pointer if available
+                if hasattr(self.row_menu, "popup_at_pointer"):
+                    self.row_menu.popup_at_pointer(event)
+            return True
+
+        return False
+
+
+    def copy_selected_row(self, menu_item):
+        """
+        Copy the currently selected row's visible columns to the clipboard.
+        Columns copied: 0 (English Term), 1 (Target), 2 (Anchor -> fully composed URL), 3 (Language 2)
+        They will be joined by tabs for easy pasting into editors/spreadsheets.
+        """
+        treeview = getattr(self, "treeview", None)
+        if treeview is None:
+            return
+
+        selection = treeview.get_selection()
+        model, tree_iter = selection.get_selected()
+        if tree_iter is None:
+            return
+
+        # Collect columns 0 and 1
+        cols = []
+        for i in (0, 1):
+            val = model.get_value(tree_iter, i)
+            cols.append(val if val is not None else "")
+
+        # Anchor (column 2) must be composed into full URL like act()
+        raw_anchor = (model.get_value(tree_iter, 2) or "").strip()
+        if raw_anchor:
+            if raw_anchor.startswith("https://") or raw_anchor.startswith("http://"):
+                anchor_url = raw_anchor
+            else:
+                # Prefer the attribute used elsewhere in the class; handle name-mangling fallback
+                try:
+                    base = self.__url_bas
+                except AttributeError:
+                    base = getattr(self, "_LocalTerm__url_bas", "") or ""
+
+                # Ensure exactly one slash between base and path
+                if base and not base.endswith("/"):
+                    base += "/"
+                anchor_url = base + raw_anchor.lstrip("/") if base else raw_anchor
+        else:
+            anchor_url = ""
+
+        cols.append(anchor_url)
+
+        # Language 2 (column 3)
+        val3 = model.get_value(tree_iter, 3)
+        cols.append(val3 if val3 is not None else "")
+
+        text = "\t".join(cols)
+
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard.set_text(text, -1)
+        clipboard.store()
+
+    def open_source_csv(self, menu_item):
+        """
+        Open the CSV file that is used to populate the Target column.
+        The Target column corresponds to the language index self.__lang1.
+        """
+        # Prefer internal file list attributes used elsewhere in the gramplet
+        files = getattr(self, "_LocalTerm__files", None)
+        if not files:
+            files = getattr(self, "_LocalTerm__fl_ar", None)
+        if not files:
+            files = getattr(self, "__files", None)
+
+        if not files:
+            LOG.error("No glossary CSV files found to open.")
+            return
+
+        # Determine index for the Target column (lang1)
+        idx = getattr(self, "__lang1", None)
+        if idx is None:
+            idx = 0
+
+        try:
+            csv_path = files[idx]
+        except Exception:
+            LOG.exception("Failed to determine CSV for Target column")
+            return
+
+        file_uri = "file://" + os.path.abspath(csv_path)
+
+        # Try to open with the platform default application via Gio
+        try:
+            Gio.app_info_launch_default_for_uri(file_uri, None)
+        except Exception:
+            LOG.exception("Gio failed to open %s; falling back to display_url", file_uri)
+            try:
+                display_url(file_uri)
+            except Exception:
+                LOG.exception("Failed to open CSV %s", csv_path)
