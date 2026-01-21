@@ -20,7 +20,7 @@ register(
     description=_("Localized index to Gramps Glossary terminology"),
     authors=["Kaj Mikkelsen"],
     authors_email=["kmi@vgdata.dk"],
-    version = '0.1.4',
+    version = '0.1.6',
     fname="LocalTerm.py",
     height=20,
     detached_width=510,

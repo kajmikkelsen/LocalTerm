@@ -54,13 +54,31 @@
 #   - Filename-based language selection (no indices)
 #   - Robust CSV parsing via Python csv module
 #   - Correct anchor source (developer_comments)
-#   - Config schema versioning (alpha)
+#   - Config schema versioning
 #   - Flush-to-defaults on schema mismatch
 #   - Removed plugin-version introspection (unstable API)
 # 2026-01-20
 #   - add context menu:
 #   -   clipboarding row data
 #   -   open the Weblate CSV externally
+# - Improved TreeView presentation and internal consistency:
+#   * Fixed column ordering so Anchor is always last (display and clipboard).
+#   * Ensured column headers and row data stay aligned.
+#
+# - Cleaned up GTK lifecycle handling:
+#   * Corrected widget usage inside build_gui() (no premature references).
+#   * Fixed right-click context menu behavior and selection highlighting.
+#   * Eliminated GTK/GDK warnings related to popup attachment and parenting.
+#
+# - Added support for language-level metadata in CSV files:
+#   * Detects metadata rows via context == "language" (case/whitespace insensitive).
+#   * Uses language "endonym" metadata to replace fallback column headers
+#     ("Target", "Language 2") when available.
+#   * Falls back gracefully when metadata is absent.
+#
+# - Laid groundwork for richer metadata usage:
+#   * Structure now supports additional language metadata keys.
+#   * Planned enhancement: use translator_comments as tooltips (e.g., column headers).
 #
 # ----------------------------------------------------------------------
 
@@ -104,11 +122,23 @@ except ValueError:
 _ = _trans.gettext
 
 # ----------------------------------------------------------------------
+# Model column indices
+# Anchor MUST be the last data column
+# ----------------------------------------------------------------------
+
+COL_TERM   = 0
+COL_TARGET = 1
+COL_LANG2  = 2
+COL_ANCHOR = 3
+COL_FG     = 4
+COL_BG     = 5
+
+# ----------------------------------------------------------------------
 # Config schema (explicit, alpha)
 # ----------------------------------------------------------------------
 
 CONFIG_ID = "LocalTerm"
-CONFIG_SCHEMA_VERSION = "0.0.1"
+CONFIG_SCHEMA_VERSION = "0.0.5"
 
 _config_file = os.path.join(
     os.path.dirname(__file__),
@@ -138,6 +168,17 @@ config.register("myopt.lang2_file", "")
 # Gramplet
 # ----------------------------------------------------------------------
 
+def _norm(value):
+    """Normalize CSV fields (strip + lowercase)."""
+    return value.strip().lower() if value else ""
+
+
+def is_language_metadata(context, source, key):
+    """
+    True if this row is language-level metadata with the given key.
+    Case- and whitespace-insensitive.
+    """
+    return _norm(context) == "language" and _norm(source) == key
 
 class LocalTerm(Gramplet):
     """
@@ -173,7 +214,6 @@ class LocalTerm(Gramplet):
             config.set("myopt.config_schema", CONFIG_SCHEMA_VERSION)
             config.save()
 
-
     def _load_files(self):
         pattern = os.path.join(
             os.path.dirname(__file__),
@@ -203,15 +243,17 @@ class LocalTerm(Gramplet):
         self._validate_or_flush_config()
         self._load_files()
 
-        self.gui.WIDGET = self.build_gui()
-        self.gui.get_container_widget().remove(self.gui.textview)
-        self.gui.get_container_widget().add(self.gui.WIDGET)
-        self.gui.WIDGET.show()
-
         self.lang1_txt = {}
         self.lang2_txt = {}
         self.lang1_loc = {}
         self.lang2_loc = {}
+        self.lang1_endonym = None
+        self.lang2_endonym = None
+
+        self.gui.WIDGET = self.build_gui()
+        self.gui.get_container_widget().remove(self.gui.textview)
+        self.gui.get_container_widget().add(self.gui.WIDGET)
+        self.gui.WIDGET.show()
 
     def on_load(self):
         self.__show_anchor = config.get("myopt.show_anchor")
@@ -324,9 +366,18 @@ class LocalTerm(Gramplet):
                 if len(row) < 8:
                     continue
 
+                context = row[5].strip()
                 source = self.clean_translatable(row[1])
                 target = row[2].strip()
                 anchor = row[7].strip()
+
+                # Language-level metadata: endonym
+                if is_language_metadata(context, source, "endonym"):
+                    if self.filenbr == 0:
+                        self.lang1_endonym = target
+                    else:
+                        self.lang2_endonym = target
+
 
                 if self.filenbr == 0:
                     self.lang1_txt[source] = target
@@ -345,12 +396,12 @@ class LocalTerm(Gramplet):
             for key, value in self.lang1_txt.items():
                 self.model.append(
                     (
-                        key,
-                        value,
-                        self.lang1_loc.get(key, ""),
-                        self.lang2_txt.get(key, ""),
-                        self.__fg_sel,
-                        self.__bg_sel,
+                        key,                              # COL_TERM
+                        value,                            # COL_TARGET
+                        self.lang2_txt.get(key, ""),      # COL_LANG2
+                        self.lang1_loc.get(key, ""),      # COL_ANCHOR (ALWAYS LAST DATA)
+                        self.__fg_sel,                    # COL_FG
+                        self.__bg_sel,                    # COL_BG
                     )
                 )
 
@@ -362,8 +413,11 @@ class LocalTerm(Gramplet):
         self.model.clear()
         self.set_fl_ar()
 
-        self.gui.WIDGET.get_column(2).set_visible(self.__show_anchor)
-        self.gui.WIDGET.get_column(3).set_visible(self.__lang1 != self.__lang2)
+        # Language 2 column (view index 2)
+        self.gui.WIDGET.get_column(2).set_visible(self.__lang1 != self.__lang2)
+
+        # Anchor column (view index 3 — ALWAYS last)
+        self.gui.WIDGET.get_column(3).set_visible(self.__show_anchor)
 
         self.gui.WIDGET.set_search_column(
             3 if self.__search_lang == 2 else 1
@@ -375,9 +429,24 @@ class LocalTerm(Gramplet):
                 self.load_file(fl)
                 self.filenbr += 1
 
+        # Apply endonyms to column headers AFTER loading CSV metadata
+        columns = self.gui.WIDGET.get_columns()
+
+        # Column 1 = Target language
+        if self.lang1_endonym:
+            columns[1].set_title(self.lang1_endonym)
+        else:
+            columns[1].set_title(_("Target"))
+
+        # Column 2 = Language 2
+        if self.lang2_endonym:
+            columns[2].set_title(self.lang2_endonym)
+        else:
+            columns[2].set_title(_("Language 2"))
+
     def act(self, _tree_view, path, _column):
         tree_iter = self.model.get_iter(path)
-        link = self.model.get_value(tree_iter, 2).strip()
+        link = (self.model.get_value(tree_iter, COL_ANCHOR) or "").strip()
 
         if not link:
             return
@@ -396,6 +465,7 @@ class LocalTerm(Gramplet):
     def build_gui(self):
         self.model = Gtk.ListStore(str, str, str, str, str, str)
         view = Gtk.TreeView(self.model)
+        columns = view.get_columns()
         view.connect("row-activated", self.act)
 
         # Save reference for use from handlers
@@ -421,16 +491,16 @@ class LocalTerm(Gramplet):
         renderer = Gtk.CellRendererText()
 
         view.append_column(
-            Gtk.TreeViewColumn(_("English Term"), renderer, text=0, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("English Term"), renderer, text=COL_TERM, foreground=4, background=5)
         )
         view.append_column(
-            Gtk.TreeViewColumn(_("Target"), renderer, text=1, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("Target"), renderer, text=COL_TARGET, foreground=4, background=5)
         )
         view.append_column(
-            Gtk.TreeViewColumn(_("Anchor"), renderer, text=2, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("Language 2"), renderer, text=COL_LANG2, foreground=4, background=5)
         )
         view.append_column(
-            Gtk.TreeViewColumn(_("Language 2"), renderer, text=3, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("Anchor"), renderer, text=COL_ANCHOR, foreground=4, background=5)
         )
 
         view.set_search_column(1)
@@ -439,29 +509,36 @@ class LocalTerm(Gramplet):
         self.set_tooltip(_("Double click row to open glossary entry"))
         return view
 
-
-
     def on_tree_button_press(self, treeview, event):
         """
         Handle button-press-event to show a context menu on right-click for a row.
+        Wayland-safe AND Gramps-safe.
         """
-        # Right-click (button 3) only
         if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
-            # Get path at click position
             result = treeview.get_path_at_pos(int(event.x), int(event.y))
             if result is None:
                 return False
-            path, col, cell_x, cell_y = result
+
+            path, column, cell_x, cell_y = result
+
             # Select the clicked row
-            sel = treeview.get_selection()
-            sel.select_path(path)
-            # Popup the menu anchored to the event
-            try:
-                self.row_menu.popup(None, None, None, None, event.button, event.time)
-            except TypeError:
-                # Some GTK bindings differ; fallback to popup_at_pointer if available
-                if hasattr(self.row_menu, "popup_at_pointer"):
-                    self.row_menu.popup_at_pointer(event)
+            selection = treeview.get_selection()
+            selection.select_path(path)
+
+            # Attach menu ONLY if we have a real Gtk.Window
+            toplevel = treeview.get_toplevel()
+            if isinstance(toplevel, Gtk.Window) and self.row_menu.get_attach_widget() is None:
+                self.row_menu.attach_to_widget(toplevel, None)
+
+            # Popup menu (Wayland-safe)
+            if hasattr(self.row_menu, "popup_at_pointer"):
+                self.row_menu.popup_at_pointer(event)
+            else:
+                self.row_menu.popup(
+                    None, None, None, None,
+                    event.button, event.time
+                )
+
             return True
 
         return False
@@ -482,36 +559,27 @@ class LocalTerm(Gramplet):
         if tree_iter is None:
             return
 
-        # Collect columns 0 and 1
-        cols = []
-        for i in (0, 1):
-            val = model.get_value(tree_iter, i)
-            cols.append(val if val is not None else "")
+        cols = [
+            model.get_value(tree_iter, COL_TERM)   or "",
+            model.get_value(tree_iter, COL_TARGET) or "",
+            model.get_value(tree_iter, COL_LANG2)  or "",
+        ]
 
         # Anchor (column 2) must be composed into full URL like act()
-        raw_anchor = (model.get_value(tree_iter, 2) or "").strip()
+        raw_anchor = (model.get_value(tree_iter, COL_ANCHOR) or "").strip()
+
         if raw_anchor:
-            if raw_anchor.startswith("https://") or raw_anchor.startswith("http://"):
+            if raw_anchor.startswith(("https://", "http://")):
                 anchor_url = raw_anchor
             else:
-                # Prefer the attribute used elsewhere in the class; handle name-mangling fallback
-                try:
-                    base = self.__url_bas
-                except AttributeError:
-                    base = getattr(self, "_LocalTerm__url_bas", "") or ""
-
-                # Ensure exactly one slash between base and path
-                if base and not base.endswith("/"):
+                base = self.__url_bas
+                if not base.endswith("/"):
                     base += "/"
-                anchor_url = base + raw_anchor.lstrip("/") if base else raw_anchor
+                anchor_url = base + raw_anchor.lstrip("/")
         else:
             anchor_url = ""
 
-        cols.append(anchor_url)
-
-        # Language 2 (column 3)
-        val3 = model.get_value(tree_iter, 3)
-        cols.append(val3 if val3 is not None else "")
+        cols.append(anchor_url)   # Anchor ALWAYS last
 
         text = "\t".join(cols)
 
