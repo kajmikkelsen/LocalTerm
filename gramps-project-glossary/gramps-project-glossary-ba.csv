@@ -1,0 +1,13 @@
+location,source,target,id,fuzzy,context,translator_comments,developer_comments
+,EnglishExonym,Placeholder,,no,language,"Sprognavn på engelsk",https://gramps-project.org/wiki/index.php/Gramps_Glossary/ba
+,endonym,tempFile,,no,language,"Sprognavn på modersmål",https://gramps-project.org/wiki/index.php/Gramps_Glossary/ba
+,language code,ba,,no,language,"Sprogkode i ISO 639-standarden",https://hosted.weblate.org/projects/gramps-project/-/ba/
+,translators,Yadda,,yes,language,"Ledende oversætter for GUI",https://gramps-project.org/wiki/index.php/Portal:Translators#ba
+,translations,Yaddish,,yes,language,"Status for wiki-oversættelse",https://gramps-project.org/wiki/index.php/User_manual_translations#ba
+,documentation,Silliness,,yes,language,"Oversat wiki-sideindeks",https://gramps-project.org/wiki/index.php/Category:Ba:Documentation
+,Active Person,Sedentary person,,yes,terminology,"this would be a human friendly description",Gramps_Glossary/da#active_person
+,Add-on,Tilføjelse,,yes,terminology,"valgfrit tredjepartsudvidelsesplugin installeret via Addon Manager",Gramps_Glossary/da#addon
+,Addon,Tilføjelse,,yes,terminology,"valgfrit tredjepartsudvidelsesplugin installeret via Addon Manager",Gramps_Glossary/da#addon
+,Address,Adresse,,yes,terminology,"en bestemt placering med en tilhørende tidsramme",Gramps_Glossary/da#address
+,administrative division,administrativ inddeling,,yes,terminology,"enhed, der opdeler en geopolitisk region i konventionelle lag",Gramps_Glossary/da#administrative_division
+,Aide,Hjælper,,yes,,"et udtryk til at identificere begivenhedsrollen som værende en assistent",Gramps_Glossary/da#aide
