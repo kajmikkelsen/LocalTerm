@@ -1,7 +1,7 @@
 # "LocalTerm" Gramplet
 a Localized index to Gramps Glossary terms
 
-<img width="521" height="526" alt="image" src="https://github.com/user-attachments/assets/ddf9c00d-f0e2-4ffe-8012-b64d05f40c4d" />
+<img width="794" height="526" alt="image" src="https://github.com/user-attachments/assets/1e4e4857-1a83-4092-9c41-11fdb2d94753" />
 
 <b>Clipboarded information:</b>
 
