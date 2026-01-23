@@ -93,7 +93,7 @@ from gi.repository import Gtk, Gdk, Gio
 
 from gramps.gen.plug import Gramplet
 from gramps.gen.const import GRAMPS_LOCALE as glocale
-from gramps.gen.config import config as configman
+from gramps.gen.config import config
 from gramps.gui.display import display_url
 from gramps.gui.dialog import ErrorDialog
 from gramps.gen.plug.menu import (
@@ -137,36 +137,43 @@ COL_ANCHOR      = 5
 COL_FG          = 6
 COL_BG          = 7
 
+
 # ----------------------------------------------------------------------
-# Config schema (explicit, alpha)
+# Configuration
 # ----------------------------------------------------------------------
 
+# TODO:
+# CONFIG_ID is currently used both for config identity and diagnostics.
+# This is intentional for now. A later refactor may separate persistent
+# identity from schema/version labeling.
 CONFIG_ID = "LocalTerm"
-CONFIG_SCHEMA_VERSION = "0.0.5"
 
-_config_file = os.path.join(
-    os.path.dirname(__file__),
-    "gramps-project-glossary",
-    "LocalTerm",
-)
+CONFIG_SCHEMA_VERSION = "0.2.4"
 
-config = configman.register_manager(_config_file)
+PLUGIN_DIR = os.path.dirname(os.path.abspath(__file__))
 
-config.register("myopt.config_id", "")
-config.register("myopt.config_schema", "")
+# IMPORTANT: no ".ini" — Gramps adds it
+_config_file = os.path.join(PLUGIN_DIR, CONFIG_ID)
 
-config.register("myopt.show_anchor", False)
-config.register(
-    "myopt.url_bas",
-    "https://gramps-project.org/wiki/index.php/",
-)
-config.register("myopt.search_lang", 1)
-config.register("myopt.fg_sel_col", "#000000")
-config.register("myopt.bg_sel_col", "#ffffff")
+config = config.register_manager(_config_file)
 
-# filename-based language selection
-config.register("myopt.lang1_file", "")
-config.register("myopt.lang2_file", "")
+# schema metadata
+config.register("localterm.config_id", CONFIG_ID)
+# IMPORTANT:
+# config_schema MUST NOT default to the current version,
+# otherwise Gramps will comment it out and schema mismatch
+# detection will never trigger.
+# config.register("localterm.config_schema", CONFIG_SCHEMA_VERSION)
+config.register("localterm.config_schema", "")
+
+# options
+config.register("localterm.show_anchor", False)
+config.register("localterm.url_bas", "https://gramps-project.org/wiki/index.php/")
+config.register("localterm.search_lang", 1)
+config.register("localterm.fg_sel_col", "#000000")
+config.register("localterm.bg_sel_col", "#ffffff")
+config.register("localterm.lang1_file", "")
+config.register("localterm.lang2_file", "")
 
 # ----------------------------------------------------------------------
 # Gramplet
@@ -204,8 +211,8 @@ class LocalTerm(Gramplet):
         LocalTerm configs are NOT migrated.
         Any mismatch results in a full reset to defaults.
         """
-        cfg_id = config.get("myopt.config_id")
-        cfg_schema = config.get("myopt.config_schema")
+        cfg_id = config.get("localterm.config_id")
+        cfg_schema = config.get("localterm.config_schema")
 
         if cfg_id != CONFIG_ID or cfg_schema != CONFIG_SCHEMA_VERSION:
             LOG.info(
@@ -214,8 +221,8 @@ class LocalTerm(Gramplet):
                 cfg_schema,
             )
             config.reset()
-            config.set("myopt.config_id", CONFIG_ID)
-            config.set("myopt.config_schema", CONFIG_SCHEMA_VERSION)
+            config.set("localterm.config_id", CONFIG_ID)
+            config.set("localterm.config_schema", CONFIG_SCHEMA_VERSION)
             config.save()
 
     def _load_files(self):
@@ -262,14 +269,14 @@ class LocalTerm(Gramplet):
         self.gui.WIDGET.show()
 
     def on_load(self):
-        self.__show_anchor = config.get("myopt.show_anchor")
-        self.__search_lang = config.get("myopt.search_lang")
-        self.__url_bas = config.get("myopt.url_bas")
-        self.__fg_sel = config.get("myopt.fg_sel_col")
-        self.__bg_sel = config.get("myopt.bg_sel_col")
+        self.__show_anchor = config.get("localterm.show_anchor")
+        self.__search_lang = config.get("localterm.search_lang")
+        self.__url_bas = config.get("localterm.url_bas")
+        self.__fg_sel = config.get("localterm.fg_sel_col")
+        self.__bg_sel = config.get("localterm.bg_sel_col")
 
-        self.__lang1_file = config.get("myopt.lang1_file")
-        self.__lang2_file = config.get("myopt.lang2_file")
+        self.__lang1_file = config.get("localterm.lang1_file")
+        self.__lang2_file = config.get("localterm.lang2_file")
 
         self._load_files()
 
@@ -316,24 +323,24 @@ class LocalTerm(Gramplet):
         self.__lang1 = self.opts[5].get_value()
         self.__lang2 = self.opts[6].get_value()
 
-        config.set("myopt.show_anchor", self.__show_anchor)
-        config.set("myopt.url_bas", self.__url_bas)
-        config.set("myopt.search_lang", self.__search_lang)
-        config.set("myopt.fg_sel_col", self.__fg_sel)
-        config.set("myopt.bg_sel_col", self.__bg_sel)
+        config.set("localterm.show_anchor", self.__show_anchor)
+        config.set("localterm.url_bas", self.__url_bas)
+        config.set("localterm.search_lang", self.__search_lang)
+        config.set("localterm.fg_sel_col", self.__fg_sel)
+        config.set("localterm.bg_sel_col", self.__bg_sel)
 
         if self.__files:
             config.set(
-                "myopt.lang1_file",
+                "localterm.lang1_file",
                 os.path.basename(self.__files[self.__lang1]),
             )
             config.set(
-                "myopt.lang2_file",
+                "localterm.lang2_file",
                 os.path.basename(self.__files[self.__lang2]),
             )
 
-        config.set("myopt.config_id", CONFIG_ID)
-        config.set("myopt.config_schema", CONFIG_SCHEMA_VERSION)
+        config.set("localterm.config_id", CONFIG_ID)
+        config.set("localterm.config_schema", CONFIG_SCHEMA_VERSION)
         config.save()
 
     def save_update_options(self, _obj):
@@ -545,6 +552,9 @@ class LocalTerm(Gramplet):
 
             path, column, cell_x, cell_y = result
 
+            # remember column for context-menu actions
+            self._popup_column = column
+
             # Select the clicked row
             selection = treeview.get_selection()
             selection.select_path(path)
@@ -688,10 +698,19 @@ class LocalTerm(Gramplet):
             LOG.error("No glossary CSV files found to open.")
             return
 
-        # Determine index for the Target column (lang1)
-        idx = getattr(self, "__lang1", None)
-        if idx is None:
-            idx = 0
+        # Determine index for the clicked column
+
+        column = getattr(self, "_popup_column", None)
+
+        if column:
+            col_index = self.treeview.get_columns().index(column)
+
+            if col_index == COL_LANG2:
+                idx = self.__lang2
+            else:
+                idx = self.__lang1
+        else:
+            idx = self.__lang1
 
         try:
             csv_path = files[idx]
