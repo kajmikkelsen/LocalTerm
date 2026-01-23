@@ -498,11 +498,11 @@ class LocalTerm(Gramplet):
         mi_note.connect("activate", self.create_note_from_selected_row)
         self.row_menu.append(mi_note)
 
-        mi_copy = Gtk.MenuItem(label=_("Copy row to clipboard"))
+        mi_copy = Gtk.MenuItem(label=_("Copy row to OS Clipboard"))
         mi_copy.connect("activate", self.copy_selected_row)
         self.row_menu.append(mi_copy)
 
-        mi_open_csv = Gtk.MenuItem(label=_("Open source CSV"))
+        mi_open_csv = Gtk.MenuItem(label=_("Edit source CSV file"))
         mi_open_csv.connect("activate", self.open_source_csv)
         self.row_menu.append(mi_open_csv)
 
