@@ -8,7 +8,7 @@ if VERSION_TUPLE < (5, 2, 0):
 else:
     additional_args = {
         "audience": EXPERT,
-        "status": EXPERIMENTAL,
+        "status": EXPERIMENTAL, #reduce the "LOG.setLevel()" setting for "STABLE"
 #        "maintainers": "Kaj Mikkelsen",
 #        "maintainers_email": "",
     }
@@ -20,7 +20,7 @@ register(
     description=_("Localized index to Gramps Glossary terminology"),
     authors=["Kaj Mikkelsen"],
     authors_email=["kmi@vgdata.dk"],
-    version = '0.1.6',
+    version = '0.1.9',
     fname="LocalTerm.py",
     height=20,
     detached_width=510,

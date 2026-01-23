@@ -103,6 +103,8 @@ from gramps.gen.plug.menu import (
     ColorOption,
     EnumeratedListOption,
 )
+from gramps.gen.lib import Note
+from gramps.gui.editors import EditNote
 
 # ----------------------------------------------------------------------
 # Logging
@@ -126,12 +128,14 @@ _ = _trans.gettext
 # Anchor MUST be the last data column
 # ----------------------------------------------------------------------
 
-COL_TERM   = 0
-COL_TARGET = 1
-COL_LANG2  = 2
-COL_ANCHOR = 3
-COL_FG     = 4
-COL_BG     = 5
+COL_TERM        = 0
+COL_TARGET      = 1
+COL_LANG2       = 2
+COL_TR_COM_TGT  = 3   # NEW for 1.0.8
+COL_TR_COM_L2   = 4   # NEW for 1.0.8
+COL_ANCHOR      = 5
+COL_FG          = 6
+COL_BG          = 7
 
 # ----------------------------------------------------------------------
 # Config schema (explicit, alpha)
@@ -245,6 +249,8 @@ class LocalTerm(Gramplet):
 
         self.lang1_txt = {}
         self.lang2_txt = {}
+        self.lang1_trcom = {}
+        self.lang2_trcom = {}
         self.lang1_loc = {}
         self.lang2_loc = {}
         self.lang1_endonym = None
@@ -366,9 +372,10 @@ class LocalTerm(Gramplet):
                 if len(row) < 8:
                     continue
 
-                context = row[5].strip()
                 source = self.clean_translatable(row[1])
                 target = row[2].strip()
+                context = row[5].strip()
+                translator_comments = row[6].strip()
                 anchor = row[7].strip()
 
                 # Language-level metadata: endonym
@@ -381,10 +388,12 @@ class LocalTerm(Gramplet):
 
                 if self.filenbr == 0:
                     self.lang1_txt[source] = target
+                    self.lang1_trcom[source] = translator_comments
                     self.lang1_loc[source] = anchor
                     self.lang2_txt[source] = ""
                 else:
                     self.lang2_txt[source] = target
+                    self.lang2_trcom[source] = translator_comments
                     self.lang2_loc[source] = anchor
 
         if len(self.__fl_ar) == 1 or self.filenbr == 1:
@@ -396,12 +405,14 @@ class LocalTerm(Gramplet):
             for key, value in self.lang1_txt.items():
                 self.model.append(
                     (
-                        key,                              # COL_TERM
-                        value,                            # COL_TARGET
-                        self.lang2_txt.get(key, ""),      # COL_LANG2
-                        self.lang1_loc.get(key, ""),      # COL_ANCHOR (ALWAYS LAST DATA)
-                        self.__fg_sel,                    # COL_FG
-                        self.__bg_sel,                    # COL_BG
+                        key,                                   # COL_TERM
+                        value,                                 # COL_TARGET
+                        self.lang2_txt.get(key, ""),           # COL_LANG2
+                        self.lang1_trcom.get(key, ""),          # COL_TR_COM_TGT
+                        self.lang2_trcom.get(key, ""),          # COL_TR_COM_L2
+                        self.lang1_loc.get(key, ""),            # COL_ANCHOR
+                        self.__fg_sel,
+                        self.__bg_sel,
                     )
                 )
 
@@ -463,7 +474,16 @@ class LocalTerm(Gramplet):
         display_url(url)
 
     def build_gui(self):
-        self.model = Gtk.ListStore(str, str, str, str, str, str)
+        self.model = Gtk.ListStore(
+            str,  # term
+            str,  # target
+            str,  # lang2
+            str,  # translator_comments (target)
+            str,  # translator_comments (lang2)
+            str,  # anchor
+            str,  # fg
+            str,  # bg
+        )
         view = Gtk.TreeView(self.model)
         columns = view.get_columns()
         view.connect("row-activated", self.act)
@@ -473,6 +493,10 @@ class LocalTerm(Gramplet):
 
         # Create popup menu for rows
         self.row_menu = Gtk.Menu()
+
+        mi_note = Gtk.MenuItem(label=_("Create Note from row"))
+        mi_note.connect("activate", self.create_note_from_selected_row)
+        self.row_menu.append(mi_note)
 
         mi_copy = Gtk.MenuItem(label=_("Copy row to clipboard"))
         mi_copy.connect("activate", self.copy_selected_row)
@@ -491,16 +515,16 @@ class LocalTerm(Gramplet):
         renderer = Gtk.CellRendererText()
 
         view.append_column(
-            Gtk.TreeViewColumn(_("English Term"), renderer, text=COL_TERM, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("English Term"), renderer, text=COL_TERM, foreground=COL_FG, background=COL_BG)
         )
         view.append_column(
-            Gtk.TreeViewColumn(_("Target"), renderer, text=COL_TARGET, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("Target"), renderer, text=COL_TARGET, foreground=COL_FG, background=COL_BG)
         )
         view.append_column(
-            Gtk.TreeViewColumn(_("Language 2"), renderer, text=COL_LANG2, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("Language 2"), renderer, text=COL_LANG2, foreground=COL_FG, background=COL_BG)
         )
         view.append_column(
-            Gtk.TreeViewColumn(_("Anchor"), renderer, text=COL_ANCHOR, foreground=4, background=5)
+            Gtk.TreeViewColumn(_("Anchor"), renderer, text=COL_ANCHOR, foreground=COL_FG, background=COL_BG)
         )
 
         view.set_search_column(1)
@@ -543,6 +567,67 @@ class LocalTerm(Gramplet):
 
         return False
 
+    def create_note_from_selected_row(self, menu_item):
+        """
+        Create a new Gramps Note from the selected row.
+        Fields are labeled and separated by TWO line breaks
+        Anchor is expanded to a full URL and always last.
+        """
+        treeview = getattr(self, "treeview", None)
+        if treeview is None:
+            return
+
+        selection = treeview.get_selection()
+        model, tree_iter = selection.get_selected()
+        if tree_iter is None:
+            return
+
+        parts = []
+
+        def add_block(header, value, comment=None):
+            if not value:
+                return
+            block = f"{header}:\n{value}"
+            if comment:
+                block += f"\n{comment}"
+            parts.append(block)
+
+        add_block(
+            _("English Term"),
+            model.get_value(tree_iter, COL_TERM)
+        )
+
+        add_block(
+            self.treeview.get_column(1).get_title(),
+            model.get_value(tree_iter, COL_TARGET),
+            model.get_value(tree_iter, COL_TR_COM_TGT),
+        )
+
+        add_block(
+            self.treeview.get_column(2).get_title(),
+            model.get_value(tree_iter, COL_LANG2),
+            model.get_value(tree_iter, COL_TR_COM_L2),
+        )
+
+        # Compose anchor URL (same logic as act() / clipboard)
+        raw_anchor = (model.get_value(tree_iter, COL_ANCHOR) or "").strip()
+        if raw_anchor:
+            if raw_anchor.startswith(("https://", "http://")):
+                anchor_url = raw_anchor
+            else:
+                base = self.__url_bas
+                if not base.endswith("/"):
+                    base += "/"
+                anchor_url = base + raw_anchor.lstrip("/")
+            add_block(_("Anchor"), anchor_url)
+
+        note_text = "\n\n".join(parts)
+
+        # Create and open Note editor
+        note = Note()
+        note.set(note_text)
+
+        EditNote(self.gui.dbstate, self.gui.uistate, [], note)
 
     def copy_selected_row(self, menu_item):
         """
