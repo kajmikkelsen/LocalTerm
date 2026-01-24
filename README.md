@@ -20,7 +20,8 @@ Clicking one of the language columns and start typing will do a search in that c
 ### `Create Note from row` information:
 
 <i>Likely to be outdated.</i>
-<img width="917" height="674" alt="image" src="https://github.com/user-attachments/assets/8cb00599-44f6-44df-b200-b32207ca05db" />
+<img width="1481" height="977" alt="image" src="https://github.com/user-attachments/assets/96b87961-1f51-4c95-921b-a697cbd99bd3" />
+
 
 
 ### `Copy row to OS Clipboard` information:
