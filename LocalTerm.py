@@ -594,6 +594,16 @@ class LocalTerm(Gramplet):
 
         parts = []
 
+        def first_letter_anchor(url):
+            """
+            Reduce a glossary anchor URL to its alphabetical section.
+            Example: ...#attribute -> ...#a
+            """
+            if "#" not in url:
+                return ""
+            base, frag = url.split("#", 1)
+            return f"{base}#{frag[:1].upper()}" if frag else ""
+
         def add_block(header, value, comment=None):
             if not value:
                 return
@@ -620,6 +630,7 @@ class LocalTerm(Gramplet):
         )
 
         # Compose anchor URL (same logic as act() / clipboard)
+
         raw_anchor = (model.get_value(tree_iter, COL_ANCHOR) or "").strip()
         if raw_anchor:
             if raw_anchor.startswith(("https://", "http://")):
@@ -629,7 +640,36 @@ class LocalTerm(Gramplet):
                 if not base.endswith("/"):
                     base += "/"
                 anchor_url = base + raw_anchor.lstrip("/")
+
+            # Full anchor
             add_block(_("Anchor"), anchor_url)
+
+            # Alphabetical section anchor (fallback when entry does not exist)
+            section_anchor = first_letter_anchor(anchor_url)
+            if section_anchor:
+                parts.append("")
+                parts.append(_("Glossary section:"))
+                parts.append(section_anchor)
+
+            # MediaWiki scratchpad
+
+            parts.append("")
+            parts.append(_("MediaWiki seed:"))
+
+            # Extract bare MediaWiki anchor fragment (text after '#')
+            raw_anchor = (model.get_value(tree_iter, COL_ANCHOR) or "").strip()
+            term_id = ""
+            if "#" in raw_anchor:
+                term_id = raw_anchor.split("#", 1)[1]
+
+            lang1_term = (model.get_value(tree_iter, COL_TARGET) or "").strip()
+            lang1_desc = (model.get_value(tree_iter, COL_TR_COM_TGT) or "").strip()
+
+            parts.append(
+                f";<span id=\"english anchor\"/>"
+                f"<span id=\"{term_id}\"/>"
+                f"{lang1_term}: {lang1_desc}"
+            )
 
         note_text = "\n\n".join(parts)
 
