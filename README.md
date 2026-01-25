@@ -12,8 +12,7 @@ Double clicking a row will open a browser page with the Gramps wiki's Glossary i
 
 Clicking one of the language columns and start typing will do a search in that column based upon your typing
 
-
-<img width="794" height="526" alt="image" src="https://github.com/user-attachments/assets/1e4e4857-1a83-4092-9c41-11fdb2d94753" />
+<img width="464" height="386" alt="image" src="https://github.com/user-attachments/assets/942f6ce4-10e8-4d15-99ab-c42cf11b1f47" />
 
 ## Context menu options
 
