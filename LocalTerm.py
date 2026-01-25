@@ -58,27 +58,23 @@
 #   - Flush-to-defaults on schema mismatch
 #   - Removed plugin-version introspection (unstable API)
 # 2026-01-20
-#   - add context menu:
-#   -   clipboarding row data
-#   -   open the Weblate CSV externally
-# - Improved TreeView presentation and internal consistency:
-#   * Fixed column ordering so Anchor is always last (display and clipboard).
-#   * Ensured column headers and row data stay aligned.
+# - Add context menu with clipboard support and external opening of Weblate CSV.
+# - Improve TreeView presentation and consistency (anchor column last; headers and rows aligned).
+# - Fix GTK lifecycle and context-menu handling (selection, popup parenting, warning cleanup).
+# - Add support for language-level CSV metadata (detect language context; use endonym headers; graceful fallback).
+# - Lay groundwork for expanded metadata usage (extensible keys; future tooltip support).
+# - Fix CSV load crash caused by uninitialized context variable.
+# 2026-01-24
 #
-# - Cleaned up GTK lifecycle handling:
-#   * Corrected widget usage inside build_gui() (no premature references).
-#   * Fixed right-click context menu behavior and selection highlighting.
-#   * Eliminated GTK/GDK warnings related to popup attachment and parenting.
-#
-# - Added support for language-level metadata in CSV files:
-#   * Detects metadata rows via context == "language" (case/whitespace insensitive).
-#   * Uses language "endonym" metadata to replace fallback column headers
-#     ("Target", "Language 2") when available.
-#   * Falls back gracefully when metadata is absent.
-#
-# - Laid groundwork for richer metadata usage:
-#   * Structure now supports additional language metadata keys.
-#   * Planned enhancement: use translator_comments as tooltips (e.g., column headers).
+# 2026-01-25
+# - Detect duplicate 'source' keys within Language-1 CSV rows (not between languages).
+# - Preserve duplicate Language-1 rows by appending internal row index keys.
+# - Mark duplicate Language-1 rows without collapsing data.
+# - Add optional "Track Changes" to highlight L1/L2 row value mismatches.
+# - Add configuration option for enabling/disabling Track Changes.
+# - Bump config schema version to reflect new option.
+# - Refactor config handling to named options (remove index-based access).
+# - Stabilize Configure dialog after schema flushes and option reordering.
 #
 # ----------------------------------------------------------------------
 
@@ -148,7 +144,7 @@ COL_BG          = 7
 # identity from schema/version labeling.
 CONFIG_ID = "LocalTerm"
 
-CONFIG_SCHEMA_VERSION = "0.2.4"
+CONFIG_SCHEMA_VERSION = "0.2.5"
 
 PLUGIN_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -168,6 +164,7 @@ config.register("localterm.config_schema", "")
 
 # options
 config.register("localterm.show_anchor", False)
+config.register("localterm.track_changes", True)
 config.register("localterm.url_bas", "https://gramps-project.org/wiki/index.php/")
 config.register("localterm.search_lang", 1)
 config.register("localterm.fg_sel_col", "#000000")
@@ -260,8 +257,19 @@ class LocalTerm(Gramplet):
         self.lang2_trcom = {}
         self.lang1_loc = {}
         self.lang2_loc = {}
+
+        self.lang1_base = {}            # <<< CHANGED: row_key → base_source
+        self.source_row_index = {}      # <<< CHANGED: per-file row counter
+        self.duplicate_rows = set()     # <<< CHANGED: row_keys that are duplicates
+
         self.lang1_endonym = None
         self.lang2_endonym = None
+
+        self.dup_fg = "#CC5500"     # NEW: Weblate-style dark orange fg for dups (on light bg)
+        self.dup_bg = "#FFF2CC"  # NEW: Weblate-style pale yellow bg for dups
+        self.change_fg = self.dup_fg          # same foreground
+        self.change_bg = "#E6F4EA"            # pale green
+
 
         self.gui.WIDGET = self.build_gui()
         self.gui.get_container_widget().remove(self.gui.textview)
@@ -270,6 +278,7 @@ class LocalTerm(Gramplet):
 
     def on_load(self):
         self.__show_anchor = config.get("localterm.show_anchor")
+        self.__track_changes = config.get("localterm.track_changes")
         self.__search_lang = config.get("localterm.search_lang")
         self.__url_bas = config.get("localterm.url_bas")
         self.__fg_sel = config.get("localterm.fg_sel_col")
@@ -291,37 +300,57 @@ class LocalTerm(Gramplet):
         self._load_files()
         self.opts = []
 
-        self.opts.append(
-            StringOption(_("URL base for glossary anchors"), self.__url_bas)
+        self.opt_url = StringOption(
+            _("URL base for glossary anchors"), self.__url_bas
         )
-        self.opts.append(BooleanOption(_("Show anchor column"), self.__show_anchor))
-        self.opts.append(
-            NumberOption(_("Search language"), self.__search_lang, 1, 2, 1)
+        self.opt_show_anchor = BooleanOption(
+            _("Show anchor column"), self.__show_anchor
         )
-        self.opts.append(ColorOption(_("Foreground color"), self.__fg_sel))
-        self.opts.append(ColorOption(_("Background color"), self.__bg_sel))
+        self.opt_track_changes = BooleanOption(
+            _("Track Changes"), self.__track_changes
+        )
+        self.opt_search_lang = NumberOption(
+            _("Search language"), self.__search_lang, 1, 2, 1
+        )
+        self.opt_fg = ColorOption(
+            _("Foreground color"), self.__fg_sel
+        )
+        self.opt_bg = ColorOption(
+            _("Background color"), self.__bg_sel
+        )
 
-        opt = EnumeratedListOption(_("Language 1"), self.__lang1)
-        for i, f in enumerate(self.__files):
-            opt.add_item(i, os.path.basename(f))
-        self.opts.append(opt)
+        self.opts = [
+            self.opt_url,
+            self.opt_show_anchor,
+            self.opt_track_changes,   # ← exactly where you wanted it
+            self.opt_search_lang,
+            self.opt_fg,
+            self.opt_bg,
+        ]
 
-        opt = EnumeratedListOption(_("Language 2"), self.__lang2)
+        self.opt_lang1 = EnumeratedListOption(_("Language 1"), self.__lang1)
         for i, f in enumerate(self.__files):
-            opt.add_item(i, os.path.basename(f))
-        self.opts.append(opt)
+            self.opt_lang1.add_item(i, os.path.basename(f))
+        self.opts.append(self.opt_lang1)
+
+        self.opt_lang2 = EnumeratedListOption(_("Language 2"), self.__lang2)
+        for i, f in enumerate(self.__files):
+            self.opt_lang2.add_item(i, os.path.basename(f))
+        self.opts.append(self.opt_lang2)
 
         for opt in self.opts:
             self.add_option(opt)
 
     def save_options(self):
-        self.__url_bas = self.opts[0].get_value()
-        self.__show_anchor = self.opts[1].get_value()
-        self.__search_lang = self.opts[2].get_value()
-        self.__fg_sel = self.opts[3].get_value()
-        self.__bg_sel = self.opts[4].get_value()
-        self.__lang1 = self.opts[5].get_value()
-        self.__lang2 = self.opts[6].get_value()
+        self.__url_bas = self.opt_url.get_value()
+        self.__show_anchor = self.opt_show_anchor.get_value()
+        self.__track_changes = self.opt_track_changes.get_value()
+        self.__search_lang = self.opt_search_lang.get_value()
+        self.__fg_sel = self.opt_fg.get_value()
+        self.__bg_sel = self.opt_bg.get_value()
+
+        self.__lang1 = self.opt_lang1.get_value()
+        self.__lang2 = self.opt_lang2.get_value()
 
         config.set("localterm.show_anchor", self.__show_anchor)
         config.set("localterm.url_bas", self.__url_bas)
@@ -363,20 +392,17 @@ class LocalTerm(Gramplet):
     def load_file(self, flnm):
         if self.filenbr == 0:
             self.lang1_txt.clear()
+            self.lang1_trcom.clear()
             self.lang1_loc.clear()
-            self.lang2_txt.clear()
-            self.lang2_loc.clear()
-            self.linenbr = 0
+            self.lang1_base.clear()      # <<< CHANGED
+            self.source_row_index.clear()# <<< CHANGED
+            self.duplicate_rows.clear()  # <<< CHANGED
 
         with open(flnm, encoding="utf-8", newline="") as csvfile:
             reader = csv.reader(csvfile)
 
-            for row in reader:
-                self.linenbr += 1
-                if self.linenbr == 1:
-                    continue
-
-                if len(row) < 8:
+            for lineno, row in enumerate(reader, start=1):
+                if lineno == 1 or len(row) < 8:
                     continue
 
                 source = self.clean_translatable(row[1])
@@ -385,43 +411,39 @@ class LocalTerm(Gramplet):
                 translator_comments = row[6].strip()
                 anchor = row[7].strip()
 
-                # Language-level metadata: endonym
+                # Language-level metadata (endonym)
                 if is_language_metadata(context, source, "endonym"):
                     if self.filenbr == 0:
                         self.lang1_endonym = target
                     else:
                         self.lang2_endonym = target
+                    continue
 
-
+                # ------------------------------------------------------
+                # Language 1: preserve rows, mark duplicates
+                # ------------------------------------------------------
                 if self.filenbr == 0:
-                    self.lang1_txt[source] = target
-                    self.lang1_trcom[source] = translator_comments
-                    self.lang1_loc[source] = anchor
-                    self.lang2_txt[source] = ""
+                    idx = self.source_row_index.get(source, 0) + 1
+                    self.source_row_index[source] = idx
+
+                    if idx == 1:
+                        row_key = source
+                    else:
+                        row_key = f"{source}#{idx}"
+                        self.duplicate_rows.add(row_key)   # <<< CHANGED
+
+                    self.lang1_txt[row_key] = target
+                    self.lang1_trcom[row_key] = translator_comments
+                    self.lang1_loc[row_key] = anchor
+                    self.lang1_base[row_key] = source
+
+                # ------------------------------------------------------
+                # Language 2: collapsed overlay
+                # ------------------------------------------------------
                 else:
                     self.lang2_txt[source] = target
                     self.lang2_trcom[source] = translator_comments
                     self.lang2_loc[source] = anchor
-
-        if len(self.__fl_ar) == 1 or self.filenbr == 1:
-            for key in self.lang2_txt:
-                if key not in self.lang1_txt:
-                    self.lang1_txt[key] = ""
-                    self.lang1_loc[key] = self.lang2_loc.get(key, "")
-
-            for key, value in self.lang1_txt.items():
-                self.model.append(
-                    (
-                        key,                                   # COL_TERM
-                        value,                                 # COL_TARGET
-                        self.lang2_txt.get(key, ""),           # COL_LANG2
-                        self.lang1_trcom.get(key, ""),          # COL_TR_COM_TGT
-                        self.lang2_trcom.get(key, ""),          # COL_TR_COM_L2
-                        self.lang1_loc.get(key, ""),            # COL_ANCHOR
-                        self.__fg_sel,
-                        self.__bg_sel,
-                    )
-                )
 
     # ------------------------------------------------------------------
     # Main / UI
@@ -431,12 +453,8 @@ class LocalTerm(Gramplet):
         self.model.clear()
         self.set_fl_ar()
 
-        # Language 2 column (view index 2)
         self.gui.WIDGET.get_column(2).set_visible(self.__lang1 != self.__lang2)
-
-        # Anchor column (view index 3 — ALWAYS last)
         self.gui.WIDGET.get_column(3).set_visible(self.__show_anchor)
-
         self.gui.WIDGET.set_search_column(
             3 if self.__search_lang == 2 else 1
         )
@@ -445,22 +463,54 @@ class LocalTerm(Gramplet):
         for fl in self.__fl_ar:
             if os.path.isfile(fl):
                 self.load_file(fl)
-                self.filenbr += 1
+            self.filenbr += 1
 
-        # Apply endonyms to column headers AFTER loading CSV metadata
+        # --------------------------------------------------------------
+        # Populate model row-by-row (no consolidation)
+        # --------------------------------------------------------------
+        for row_key, value in self.lang1_txt.items():
+            base_source = self.lang1_base[row_key]
+
+            is_dup = row_key in self.duplicate_rows
+
+            base_source = self.lang1_base[row_key]
+            l1_value = value or ""
+            l2_value = self.lang2_txt.get(base_source, "") or ""
+
+            is_changed = (
+                self.__track_changes
+                and l2_value
+                and l1_value != l2_value
+            )
+
+            if is_dup:
+                fg = self.dup_fg
+                bg = self.dup_bg
+            elif is_changed:
+                fg = self.change_fg
+                bg = self.change_bg
+            else:
+                fg = self.__fg_sel
+                bg = self.__bg_sel
+
+            self.model.append([
+                base_source,                         # COL_TERM
+                value,                               # COL_TARGET
+                self.lang2_txt.get(base_source, ""), # COL_LANG2
+                self.lang1_trcom.get(row_key, ""),   # COL_TR_COM_TGT
+                self.lang2_trcom.get(base_source, ""),# COL_TR_COM_L2
+                self.lang1_loc.get(row_key, ""),     # COL_ANCHOR
+                fg,
+                bg,
+            ])
+
+        # Apply endonyms to headers
         columns = self.gui.WIDGET.get_columns()
 
-        # Column 1 = Target language
-        if self.lang1_endonym:
-            columns[1].set_title(self.lang1_endonym)
-        else:
-            columns[1].set_title(_("Target"))
+        columns[1].set_title(self.lang1_endonym or _("Target"))
+        columns[2].set_title(self.lang2_endonym or _("Language 2"))
 
-        # Column 2 = Language 2
-        if self.lang2_endonym:
-            columns[2].set_title(self.lang2_endonym)
-        else:
-            columns[2].set_title(_("Language 2"))
+
 
     def act(self, _tree_view, path, _column):
         tree_iter = self.model.get_iter(path)
