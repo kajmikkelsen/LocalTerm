@@ -1,0 +1,138 @@
+location,source,target,id,fuzzy,context,translator_comments,developer_comments
+,EnglishExonym,Danish,,no,language,Sprognavn på engelsk,https://gramps-project.org/wiki/index.php/Da:Gramps_Ordliste
+,endonym,Dansk rev1,,no,language,Sprognavn på modersmål,https://gramps-project.org/wiki/index.php/Da:Gramps_Ordliste
+,language code,da,,no,language,Sprogkode i ISO 639-standarden,https://hosted.weblate.org/projects/gramps-project/-/da/
+,translators,Oversættere,,yes,language,Ledende oversætter for GUI,https://gramps-project.org/wiki/index.php/Portal:Translators#da
+,translations,Oversættelser,,yes,language,Status for wiki-oversættelse,https://gramps-project.org/wiki/index.php/User_manual_translations#da
+,documentation,Oversættelser,,yes,language,Oversat wiki-sideindeks,https://gramps-project.org/wiki/index.php/Category:Da:Documentation
+,Active Person,Aktiv person,,yes,terminology,person udpeget som det øjeblikkelige fokuspunkt,Da:Gramps_Ordliste#active_person
+,Add-on,Tilføjelse,,yes,terminology,valgfrit tredjepartsudvidelsesplugin installeret via Addon Manager,Da:Gramps_Ordliste#addon
+,Addon,Tilføjelse,,yes,terminology,valgfrit tredjepartsudvidelsesplugin installeret via Addon Manager,Da:Gramps_Ordliste#addon
+,Address,Adresse,,yes,terminology,en bestemt placering med en tilhørende tidsramme,Da:Gramps_Ordliste#address
+,administrative division,administrativ inddeling,,yes,terminology,"enhed, der opdeler en geopolitisk region i konventionelle lag",Da:Gramps_Ordliste#administrative_division
+,Aide,Hjælper,,yes,,et udtryk til at identificere begivenhedsrollen som værende en assistent,Da:Gramps_Ordliste#aide
+,Ancestry,Slægtsforskning,,False,,,
+,anglicization,anglificering,,yes,,proces med at omdanne et udenlandsk navn til dets engelske variant,Da:Gramps_Ordliste#anglicisation
+,Association,Forbindelse,,yes,terminology,"en rolle, der eksplicit definerer, hvordan en person forholder sig til en anden",Da:Gramps_Ordliste#association
+,Associations,Forbindelser,,yes,terminology,"roller, der definerer ikke-biologiske relationer og delte karakteristika mellem personer",Da:Gramps_Ordliste#association
+,Attribute,Attribut,,yes,terminology,en brugerdefineret registrering af et permanent karakteristika,Da:Gramps_Ordliste#attribute
+,Attributes,Attributter,,yes,terminology,Tilpassede kategorier for permanente karakteristika ud over det foruddefinerede sæt,Da:Gramps_Ordliste#attribute
+,base relative media path,udgangspunkt for sti til medier,,False,,,
+,Books Report,Bograpporter,,yes,terminology,en ordnet samling af Gramps tekst- og grafiske rapporter i et enkelt dokument,Da:Gramps_Ordliste#books_report
+,border,grænse,,False,,,
+,Bride,Brud,,yes,,et udtryk til at identificere ægteskabsrollen som at være hustru,Da:Gramps_Ordliste#bride
+,BSDDB,BSDDB,,yes,,Berkeley Software Distribution-databasen: en alternativ databasemotor,Da:Gramps_Ordliste#bsddb
+,bug,fejl,,False,,,
+,bugs,fejl,,False,,,
+,burial,begravelse,,False,,,
+,Categories,Kategorier,,yes,terminology,Gramps organiserer hvert primært objekt i et sæt af tydeligt forskellige beskrivende skemaer,Da:Gramps_Ordliste#category
+,Category,Kategori,,yes,terminology,et beskrivende skema for et primært databaseobjekt,Da:Gramps_Ordliste#category
+,Celebrant,Ceremonileder,,yes,,"et udtryk til at identificere en rolle som den person, der udfører en ritual",Da:Gramps_Ordliste#celebrant
+,Citation,Citat,,yes,terminology,"information, der gør det muligt at finde specifikt indhold i kildemateriale",Da:Gramps_Ordliste#citation
+,Citations,Citater,,yes,terminology,"et sæt referencer, der krediterer og lokaliserer kilder, der understøtter forskningsoptegnelser",Da:Gramps_Ordliste#citation
+,Clergy,Præster,,yes,terminology,et udtryk til at identificere en religiøs begivenheds rolle som officiant,Da:Gramps_Ordliste#clergy
+,Clipboard,Udklipsholder,,yes,terminology,"genvejssystem til deling af sekundære objekter, navigation og til oprettelse af brugerdefinerede filtre",Da:Gramps_Ordliste#clipboard
+,Color Swatch,Farveprøve,,yes,terminology,,Da:Gramps_Ordliste#color_swatch
+,Configure,Konfigurer,,yes,terminology,"brugerkonfigurerbare indstillinger, der tilpasser den lokale visningstilstands funktionsmåde",Da:Gramps_Ordliste#configure
+,Context menu,Kontekstmenu,,yes,terminology,"GUI-term: pop op-menu med indstillinger, der er relevante for det højreklikkede element",Da:Gramps_Ordliste#context_menu
+,CSV,CSV,,yes,,et akronym for Comma Separated Value-dataudvekslingsformatet i almindelig tekst med afgrænsere,Da:Gramps_Ordliste#json
+,Custom Filter,Brugerdefineret filter,,yes,terminology,"et regelsystem til kun at vise de poster, der opfylder bestemte kriterier",Da:Gramps_Ordliste#filter
+,custom Types,Brugerdefinerede typer,,yes,terminology,"brugerdefineret klassificering; i modsætning til klassificeringer, der var foruddefinerede",Da:Gramps_Ordliste#custom
+,Data,Data,,False,,,
+,Date,Dato,,yes,terminology,"tidsperiode med specifikke kvalitets-, præcisions- og kalenderslutpunkter",Da:Gramps_Ordliste#date
+,debug,fejlfinding,,False,,,
+,Default,Standard,,False,,,
+,Delimiter,Skilletegn,,False,,,
+,DNA,DNA,,yes,,et akronym for DeoxyriboNucleic Acid; byggestenene i genetisk information,Da:Gramps_Ordliste#dna
+,Dock,Dock,,yes,terminology,GUI-term: tilføj en Gramplet til Dashboard-visningen eller splitbar-containere,Da:Gramps_Ordliste#dock
+,DTD,DTD,,yes,,"et akronym for Document Type Definition: et standardiseret dokumentformat, der definerer strukturen af ​​en fil",Da:Gramps_Ordliste#dtd
+,Edit Family,Rediger familie,,yes,terminology,"revider de strukturerede data, der beskriver den grundlæggende relationsgruppering af tæt sammentømrede personer",Da:Gramps_Ordliste#edit_family
+,Edit Person,Rediger person,,yes,terminology,"revider de strukturerede data, der beskriver et individ",Da:Gramps_Ordliste#edit_person
+,Event,Begivenhed,,yes,terminology,strukturerede data om en hændelse,Da:Gramps_Ordliste#event
+,Event Role,Begivenhedsrolle,,yes,terminology,"den rolle, en person spiller i en hændelse",Da:Gramps_Ordliste#event_role
+,Events,Begivenheder,,False,,,
+,event type,begivenhedstype,,yes,terminology,generisk gruppering af hændelser,Da:Gramps_Ordliste#event_type
+,Fallback events,Standardbegivenhed,,yes,terminology,"forskellige hændelser, der anses for at være sammenlignelige med en manglende vital statistik-hændelse",Da:Gramps_Ordliste#fallback
+,Family,Familie,,yes,terminology,,Da:Gramps_Ordliste#family
+,File Chooser,Filvælger,,yes,terminology,,Da:Gramps_Ordliste#file_chooser
+,File formats,Filformater,,yes,terminology,Standardstrukturer til lagring af data i en computerfil identificeret ved dens filtypenavn,Da:Gramps_Ordliste#file_format
+,Filter,Filter,,yes,terminology,,Da:Gramps_Ordliste#filter
+,funeral,begravelse,,False,,,
+,GEDCOM,GEDCOM,,yes,,an acronym for the Genealogical Data Communication standardized data interchange format,Da:Gramps_Ordliste#gedcom
+,Godparent,Fadder,,yes,,et akronym for Genealogical Data Communication standardiseret dataudvekslingsformat,Da:Gramps_Ordliste#godparent
+,Gramplet,Gramplet,,yes,terminology,"en type lille, integreret Gramps-plugin, der udvider grænsefladen til dynamisk at interagere med slægtsdata",Da:Gramps_Ordliste#gramplet
+,Gramps for Desktops,Gramps til arbejdsstationer,,yes,terminology,,Da:Gramps_Ordliste#gramps
+,Gramps,Gramps,,yes,terminology,,Da:Gramps_Ordliste#gramps
+,Gramps Web for Servers,Gramps Web til servere,,yes,terminology,,Da:Gramps_Ordliste#grampsweb
+,Graphical User Interface,Grafisk brugergrænseflade,,yes,terminology,"Visuelt system af ikoner, knapper og menuer, der muliggør peg-og-klik-interaktion med software",Da:Gramps_Ordliste#graphical_user_interface
+,Groom,Brudgom,,yes,,et udtryk til at identificere ægteskabsrollen som at være ægtemand,Da:Gramps_Ordliste#groom
+,GUI,GUI,,yes,terminology,et akronym for en apps Grafisk brugergrænseflade,Da:Gramps_Ordliste#graphical_user_interface
+,Home Person,Proband,,yes,terminology,person udpeget som det vedvarende forskningscenter,Da:Gramps_Ordliste#home_person
+,Informant,Informant,,yes,terminology,et udtryk til at identificere hændelsesrollen som rapporteringskilde,Da:Gramps_Ordliste#informant
+,JSON,JSON,,yes,,et akronym for JavaScript Object Notation dataudvekslingsformat,Da:Gramps_Ordliste#json
+,keybinding,Nøglebinding,,yes,terminology,,Da:Gramps_Ordliste#keybinding
+,matronym,matronym,,yes,,,Da:Gramps_Ordliste#matronymic
+,Media,Medier,,yes,terminology,,Da:Gramps_Ordliste#media
+,Merge,Flet sammen,,yes,terminology,,Da:Gramps_Ordliste#merge
+,Mode,Tilstand,,yes,terminology,,Da:Gramps_Ordliste#viewmode
+,Name Origin,Navn Oprindelse,,yes,terminology,,name_origin
+,Navigator,Navigator,,yes,terminology,,navigator
+,Note,Note,,yes,terminology,,note
+,Object Editor,Objekteditor,,yes,terminology,,Da:Gramps_Ordliste#object_editor
+,Object,Objekt,,yes,terminology,struktureret databasebeholder til én fuld genealogisk optegnelse (ikke et programmeringsobjekt),Da:Gramps_Ordliste#object
+,Object Reference Editors,Objektreference Redaktører,,yes,terminology,,object_reference_editors
+,Officiator,Ceremonileder,,yes,terminology,,Da:Gramps_Ordliste#officiator
+,patronym,patronym,,yes,terminology,,Da:Gramps_Ordliste#patronymic
+,Person,Person,,yes,terminology,En individuel registrering hos Gramps,Da:Gramps_Ordliste#person
+,Place,Sted,,yes,terminology,,Da:Gramps_Ordliste#place
+,Plug-in,udvidelsesmodul,,yes,terminology,udvidelsesmodul administreret med Add-on Manager,Da:Gramps_Ordliste#plugin
+,Plugin,udvidelsesmodul,,yes,terminology,udvidelsesmodul administreret med Add-on Manager,Da:Gramps_Ordliste#plugin
+,POSIX,POSIX,,yes,,,Da:Gramps_Ordliste#posix
+,Preferences,Indsillinger,,yes,terminology,"globale brugerkonfigurerbare indstillinger, der permanent tilpasser Gramps' adfærd, herunder udseende og funktionalitet",Da:Gramps_Ordliste#preferences
+,Prerequisites,Forudsætninger,,yes,terminology,,Da:Gramps_Ordliste#prerequisites
+,Primary Object,Primært objekt,,yes,terminology,databasepost på øverste niveau for de forskellige kategorier,Da:Gramps_Ordliste#primary_object
+,Primary role,Primær rolle,,yes,terminology,,Da:Gramps_Ordliste#primary
+,Private flag,Privat flag,,yes,terminology,,Da:Gramps_Ordliste#private
+,Private tag,Privat mærkat,,yes,terminology,,Da:Gramps_Ordliste#private_tag
+,project,projekt,,False,A project object within Gramps,,
+,Public flag,Offentligt flag,,yes,terminology,,Da:Gramps_Ordliste#public
+,Public tag,Offentligt mærkat,,yes,terminology,,Da:Gramps_Ordliste#public_tag
+,Quick View,Hurtig visning,,yes,terminology,,Da:Gramps_Ordliste#quickview
+,Reference information,Henvisningsoplysninger,,yes,terminology,,Da:Gramps_Ordliste#reference_information
+,Reference,Henvisning ,,yes,terminology,,Da:Gramps_Ordliste#reference
+,References tab,Faneblad henvisninger,,yes,terminology,,Da:Gramps_Ordliste#references_tab
+,REFN,REFN,,False,,,A GEDCOM tag used to store a user-defined identifier.
+,Regular Expressions,Regulære udtryk,,yes,terminology,,Da:Gramps_Ordliste#regex
+,relation,forhold,,False,,,
+,Re-order,Omarranger,,yes,terminology,,Da:Gramps_Ordliste#reorder
+,Repositories,Arkiver,,yes,terminology,,Da:Gramps_Ordliste#repository
+,Repository,Arkiv,,yes,terminology,,Da:Gramps_Ordliste#repository
+,Role,Rolle,,yes,terminology,,Da:Gramps_Ordliste#role
+,Roles,Roller,,yes,terminology,,Da:Gramps_Ordliste#role
+,romanization,romanisering,,yes,,,Da:Gramps_Ordliste#romanization
+,Rule,Regel,,yes,terminology,,Da:Gramps_Ordliste#rule
+,Rules,Regler,,yes,terminology,,Da:Gramps_Ordliste#rule
+,secondary object,sekundært objekt,,yes,terminology,understøttende databasepost knyttet til forskellige primære objekter,Da:Gramps_Ordliste#secondary_object
+,Selector combo box,Komboboks til valg,,yes,terminology,,Da:Gramps_Ordliste#selector_combo_box
+,selector,vælger,,yes,terminology,,Da:Gramps_Ordliste#selector
+,Shared information,Delt information,,yes,terminology,,Da:Gramps_Ordliste#shared_information
+,Shared object,Delt objekt,,yes,terminology,"ét sekundært objekt, der deles på tværs af flere primære objekter med brugerdefinerede vedhæftede oplysninger",Da:Gramps_Ordliste#sharing
+,Source,Kilde,,yes,terminology,,Da:Gramps_Ordliste#source
+,Sources,Kilder,,yes,terminology,,Da:Gramps_Ordliste#source
+,SQLite,SQLite,,yes,terminology,,Da:Gramps_Ordliste#sqlite
+,substring,delstreng,,False,,,
+,Swatch,Farveprøve,,yes,terminology,,Da:Gramps_Ordliste#swatch
+,Tags,Mærkater,,yes,terminology,brugerdefinerede titler og farvekodning anvendt på objekter,Da:Gramps_Ordliste#tag
+,Tag,Mærkat,,yes,terminology,en brugerdefineret titel og farvekodning anvendt på et objekt,Da:Gramps_Ordliste#tag
+,Toolbar,Værktøjslinje,,yes,terminology,GUI-term: bånd med knapgenveje til at udløse en visningsopgave eller driftstilstand,Da:Gramps_Ordliste#toolbar
+,Try to find,Forsøg at finde,,False,,,
+,Typographical conventions,Typografiske konventioner﻿,,yes,,"sædvanlig formatering, der antyder en særlig (og muligvis ejendommelig) betydning",Da:Gramps_Ordliste#typographical_conventions
+,Undock,Fjern docking,,yes,terminology,GUI-term: frigør en Gramplet fra Dashboard-visningen eller splitbar-containere,Da:Gramps_Ordliste#dock
+,Unknown,Ukendt,,yes,terminology,"et udtryk, der angiver den rolle, der spilles i en begivenhed, er ikke identificeret",Da:Gramps_Ordliste#unknown
+,User Directory,Brugermappe,,yes,terminology,"Alias ​​for stien til en filmappeplacering, der lagrer tilpasninger og data til apps",Da:Gramps_Ordliste#user_directory
+,View category,Vis kategori,,yes,terminology,"en samling af visningstilstande, der præsenterer forskellige aspekter af lignende struktureret information",Da:Gramps_Ordliste#view_category
+,View mode,Visningstilstand,,yes,terminology,"Vis layouts, der præsenterer en visningskategoris strukturerede oplysninger på en forudsigelig måde",Da:Gramps_Ordliste#viewmode
+,View,Vis,,yes,terminology,den aktuelt aktive visningstilstand i en kategori med filtrerede data. Inklusive supplerende kontroller og gramplet-visninger,Da:Gramps_Ordliste#view
+,Wiki,Wiki,,yes,terminology,en fælles vedligeholdt hjemmeside,Da:Gramps_Ordliste#wiki
+,Witness,Vidne,,yes,,et udtryk til at identificere begivenhedsrollen som observatør,Da:Gramps_Ordliste#witness
+,XML,XML,,yes,terminology,"et akronym for Extensible Markup Language: et struktureret filformat, der tillader brugerdefinerede tags",Da:Gramps_Ordliste#xml
